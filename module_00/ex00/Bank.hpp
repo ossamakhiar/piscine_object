@@ -22,6 +22,7 @@ public:
     Bank(int _liquidity);
     Bank(const Bank&);
     Bank& operator=(const Bank&);
+    ~Bank();
 
     const int&  get_liquidity() const;
     void    set_liquidity(int);
@@ -33,6 +34,8 @@ public:
     void    deposit_money(int id, int amount);
     void    withdraw_money(int id, int amount);
     void    give_loan(int id, int loan_amount);
+
+    const Account& operator[](size_t);
 
     friend std::ostream& operator <<(std::ostream& p_os, const Bank& p_bank);
 };

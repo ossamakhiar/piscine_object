@@ -1,5 +1,5 @@
 NAME = a.out
-SRCS = $(wildcard *.cpp)
+SRCS = $(filter-out DivideAndRule.cpp, $(wildcard *.cpp))
 OBJS = $(SRCS:.cpp=.o)
 CPP = c++
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98
@@ -10,6 +10,7 @@ all: $(NAME)
 	$(CPP) $(CPPFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
+	echo $(OBJS);
 	$(CPP) $(CPPFLAGS) $(OBJS) -o $(NAME)
 
 clean:

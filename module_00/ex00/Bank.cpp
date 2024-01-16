@@ -37,6 +37,7 @@ Bank&	Bank::operator=(const Bank& rhs)
 	this->liquidity = rhs.liquidity;
 	for (std::map<int, Account*>::const_iterator it = rhs.accounts_db.begin(); it != rhs.accounts_db.end(); ++it)
 		this->accounts_db.insert(std::pair<int, Account*>(it->first, new Account(*(it->second))));
+	return (*this);
 }
 
 
@@ -120,13 +121,23 @@ void	Bank::give_loan(int id, int loan_amount)
 }
 
 
+
+const Account& Bank::operator[](size_t id)
+{
+	std::map<int, Account *>::iterator	it;
+
+	if ((it = accounts_db.find(id)) == accounts_db.end())
+		throw MyRuntimeError("This given account id doesn't exist");
+	return *(it->second);
+}
+
 // *-- printing function
 std::ostream& operator << (std::ostream& p_os, const Bank& p_bank)
 {
 	p_os << "h";
 	p_os << "Bank informations : " << std::endl;
 	p_os << "Liquidity : " << p_bank.liquidity << std::endl;
-	for (auto &clientAccount : p_bank.accounts_db)
-		p_os << clientAccount.second << std::endl;
+	for (std::map<int, Account*>::const_iterator it = p_bank.accounts_db.begin(); it != p_bank.accounts_db.end(); ++it)
+		p_os << *(it->second) << std::endl;
 	return (p_os);
 }

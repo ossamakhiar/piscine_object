@@ -13,7 +13,7 @@ private:
 	int value;
 
     Account(int id, int value);
-    Account(const Account&);
+    // Account(const Account&);
 
     friend class Bank;
 public:

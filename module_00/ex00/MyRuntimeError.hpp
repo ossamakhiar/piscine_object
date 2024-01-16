@@ -12,6 +12,8 @@ private:
 public:
     MyRuntimeError(const std::string& err);
 
+    virtual ~MyRuntimeError() throw() {};
+
     const char* what() const throw();
 };
 
