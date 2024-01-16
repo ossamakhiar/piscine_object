@@ -21,6 +21,12 @@ const int&  Account::get_id() const
     return (id);
 }
 
+std::ostream& operator<< (std::ostream& p_os, const Account& p_account)
+{
+    p_os << "[" << p_account.id << "] - [" << p_account.value << "]";
+    return (p_os);
+}
+
 /*
 cpp, OOP, Constness]
 Today, while being evaluated on the Piscine Object - Encapsulation assignment, a question arose.

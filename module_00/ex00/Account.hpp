@@ -2,6 +2,7 @@
 # define DIVIDEANDRULE_HPP
 
 #include "MyRuntimeError.hpp"
+#include <iostream>
 
 class Bank;
 
@@ -19,6 +20,7 @@ public:
 
     const int&  get_id() const;
     const int&  get_value() const;
+    friend std::ostream& operator << (std::ostream& p_os, const Account& p_account);
 };
 
 
