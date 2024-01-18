@@ -14,8 +14,8 @@ public:
     Vector2& operator=(const Vector2& rhs);
     ~Vector2();
 
-    int get_x() const;
-    int get_y() const;
+    float get_x() const;
+    float get_y() const;
 
     void    set_x(float);
     void    set_y(float);

@@ -30,12 +30,12 @@ Vector2::~Vector2()
 
 }
 
-int Vector2::get_x() const
+float Vector2::get_x() const
 {
     return (this->x);
 }
 
-int Vector2::get_y() const
+float Vector2::get_y() const
 {
     return (this->y);
 }
