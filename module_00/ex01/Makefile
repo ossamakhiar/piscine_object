@@ -1,19 +1,23 @@
 NAME = a.out
-SRCS = $(wildcard *.cpp)
-OBJS = $(SRCS:.cpp=.o)
+SRCS = $(wildcard *.cpp pngWriter/*.cpp)
+OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.cpp=.o))
+OBJDIR=obj
 CPP = c++
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98
+CPPFLAGS = -Wall -Wextra -Werror
 
-all: $(NAME)
+all: $(OBJDIR) $(NAME)
 
-%.o:%.cpp
+$(OBJDIR):
+	mkdir -p $(dir $(OBJS))
+
+$(OBJDIR)/%.o:%.cpp
 	$(CPP) $(CPPFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	$(CPP) $(CPPFLAGS) $(OBJS) -o $(NAME)
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(OBJS) $(OBJDIR)
 
 fclean: clean
 	rm -rf $(NAME)

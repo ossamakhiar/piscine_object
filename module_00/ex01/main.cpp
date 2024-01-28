@@ -13,5 +13,6 @@ int main(void)
     // g.add_line(Vector2(0, 0), Vector2(5, 5));
 
     std::cout << g << "\n";
+    g.save_as_png("graph.png");
     return (0);
 }

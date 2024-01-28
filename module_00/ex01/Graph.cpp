@@ -87,29 +87,55 @@ bool	Graph::cross_line(int col, int row) const
 	return (false);
 }
 
+int	Graph::digit_count(int nbr) const
+{
+	if (nbr == 0)
+		return (1);
+	return (static_cast<int>(std::log10(nbr)) + 1);
+}
+
+
+void	Graph::save_as_png(std::string output_file)
+{
+	uint32_t		white_color = ~0x0;
+	int				width = 500, height = 500;
+	UncomPngWriter	png_writer(height, width, output_file);
+
+	for (int y = 0; y < height; ++y)
+		for (int x = 0; x < width; ++x)
+			png_writer.put_pixel(x, y, white_color);
+
+	png_writer.save_image();
+}
+
+
+
+
+
+
+
 std::ostream&   operator<<(std::ostream& os, const Graph& g)
 {
+	int	highest_digit = g.digit_count(g.size.get_y());
+
+	std::cout << highest_digit << "\n";
 	for (int row = static_cast<int>(g.size.get_y()); row >= 0; row--)
 	{
-		os << ">& " << row << " ";
+		std::string	spaces(highest_digit - g.digit_count(row) + 1, ' ');
+		os << ">& " << row << spaces;
 		for (int col = 0; col <= static_cast<int>(g.size.get_x()); col++)
 		{
-			// bool	is_point = false, is_line = false;
 			std::string space = (col == static_cast<int>(g.size.get_x())) ? "" : " ";
 			if (g.point_occupied(Vector2(col, row)))
-			{
 				os << "X" << space;
-			}
 			else if (g.cross_line(col, row))
-			{
 				os << "X" << space;
-			}
 			else
 				os << ". ";
 		}
 		os << "\n";
 	}
-	os << ">&   ";
+	os << ">& " << std::string(highest_digit + 1, ' ');
 	for (int i = 0; i <= static_cast<int>(g.size.get_x()); i++)
 		os << i << ((i != static_cast<int>(g.size.get_x())) ? " " : "");
 	return (os);
