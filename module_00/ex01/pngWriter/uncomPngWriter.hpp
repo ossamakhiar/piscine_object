@@ -31,15 +31,18 @@ private:
 
     // * should add allocate uint8_t (maybe for performance)???
 
-    void	bytes_writer(uint8_t *data, uint32_t n);
-    void    headerWriting();
-    void	block_writer(uint16_t bytes_to_write);
-
+    void	calculate_idat_length(void);
+    void    writeIHDR(uint32_t height, uint32_t width);
+    void    prepareIDAT();
+    void	writeIDAT();
 
     uint32_t	calc_block_nums();
+    void	    block_writer(uint16_t bytes_to_write);
 
-    void	calculate_idat_length(void);
     void	put_bytes_big_endian(uint32_t v, uint8_t *mem);
+    void	bytes_writer(uint8_t *data, uint32_t n);
+
+
 
 public:
     UncomPngWriter(uint32_t  height, uint32_t width, std::string output_path);

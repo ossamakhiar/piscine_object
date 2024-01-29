@@ -16,8 +16,10 @@ private:
     Vector2								size;
     std::vector<Vector2>                points;
     std::vector<std::pair<Vector2, Vector2> >                lines;
+
     // std::vector<std::vector<Vector2> >  graph;
 
+    bool    point_occupied(double x, double y) const;
     bool    point_occupied(const Vector2& p) const;
 
     bool	cross_line(int col, int row) const;

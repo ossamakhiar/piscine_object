@@ -21,7 +21,7 @@ void    Crc::reset()
 }
 
 
-// TODO :: make table lookup method
+// TODO :: implement table lookup method
 
 void	Crc::crc_update(uint8_t  *data, uint32_t bytes)
 {

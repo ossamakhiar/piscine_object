@@ -4,7 +4,6 @@ UncomPngWriter::UncomPngWriter(uint32_t  h, uint32_t w, std::string output) : he
 {
     std::cout << "Constructing the png writer\n";
 
-	// offset = 0;
 	x_pos = y_pos = 0;
 	this->data_size = 0;
 
@@ -19,9 +18,11 @@ UncomPngWriter::UncomPngWriter(uint32_t  h, uint32_t w, std::string output) : he
 	png_output.open(output_path, std::ios::out | std::ios::binary);
 
 	if (!png_output.is_open())
-		throw std::runtime_error("Can't open the file: " + output);;
+		throw std::runtime_error("Can't open the file: " + output);
+	
+	writeIHDR(height, width);
+
 	calculate_idat_length();
-	headerWriting();
 }
 
 
@@ -41,13 +42,14 @@ void    UncomPngWriter::put_pixel(int x, int y, uint32_t pixel_color)
 	int		offset = 0;
 	uint8_t	red, green, blue;
 
-	if (x < 0 || y < 0)
+	if (x < 0 || y < 0 || (uint32_t)x >= width || (uint32_t)y >= height)
 		throw std::runtime_error("bad pixel position");
 	red = pixel_color >> 16;
 	green = pixel_color >> 8;
 	blue = pixel_color >> 0;
 
 	offset = x * 3;
+	// * i added one due the fact that the first byte at the row is filter byte
 	image_truecolor[y][offset + 1] = red;
 	image_truecolor[y][offset + 2] = green;
 	image_truecolor[y][offset + 3] = blue;
@@ -108,13 +110,13 @@ void	UncomPngWriter::calculate_idat_length(void)
 }
 
 
-void	UncomPngWriter::headerWriting(void)
+void    UncomPngWriter::writeIHDR(uint32_t height, uint32_t width)
 {
 	uint8_t	header[] = {
-		// magic signature
+		// magic bytes - signature
 		0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
 		// IHDR chunk
-		// chunk data lebgth
+		// chunk data length (constant 13 bytes)
 		0x0, 0x0, 0x0, 0x0D,
 		// IHDR ascii values
 		0x49, 0x48, 0x44, 0x52,
@@ -127,7 +129,23 @@ void	UncomPngWriter::headerWriting(void)
 		// filter method (0 indicate no filter applied) + Interlace method
 		0x0, 0x0,
 		0x0, 0x0, 0x0, 0x0,  // IHDR CRC-32 placeholder
-		// IDAT Chunk
+	};
+
+	put_bytes_big_endian(width, &header[16]);
+	put_bytes_big_endian(height, &header[20]);
+
+	crc.reset();
+	crc.crc_update(&header[12], 17);
+	put_bytes_big_endian(crc.get_crc_value(), &header[29]);
+
+	// ? write the png header into the output file
+	bytes_writer(header, 33);
+}
+
+
+void	UncomPngWriter::prepareIDAT()
+{
+	uint8_t	start_idat[] = {
 		0x0, 0x0, 0x0, 0x0, // length place holder
 		0x49, 0x44, 0x41, 0x54, // IDAT ascii
 		// ZLIB Header 
@@ -139,44 +157,25 @@ void	UncomPngWriter::headerWriting(void)
 		*/
 		0x08, 0x1d,
 		// deflate compressed data format
-		};
+	};
 
-	put_bytes_big_endian(width, &header[16]);
-	put_bytes_big_endian(height, &header[20]);
+	put_bytes_big_endian(idat_length, &start_idat[0]);
 
-	// * calculate CRC of IHDR chunk
+	// ! reseting crc to start with IDAT bytes data
 	crc.reset();
-	crc.crc_update(&header[12], 17);
-	put_bytes_big_endian(crc.get_crc_value(), &header[29]);
-
-	put_bytes_big_endian(idat_length, &header[33]);
-
-	crc.reset();
-	crc.crc_update(&header[37], 6);
-	bytes_writer(header, 43);
+	crc.crc_update(&start_idat[4], 6);
+	bytes_writer(start_idat, 10);
 }
 
 
-void	UncomPngWriter::put_bytes_big_endian(uint32_t v, uint8_t *mem)
-{
-	mem[0] = v >> 24;
-	mem[1] = v >> 16;
-	mem[2] = v >> 8;
-	mem[3] = v;
-}
 
 void	UncomPngWriter::block_writer(uint16_t bytes_to_write)
 {
 
 	uint16_t	rows = bytes_to_write / (width * 3 + 1);
 
-	// std::cout << "rows: " << rows << "\n";
-	// std::cout << "remainder: " << bytes_to_write % (width * 3 + 1) << "\n"; // should be zero.
 	while (rows--)
 	{
-		// for (int i = 0; i <= width * 3; ++i)
-		// 	std::cout << std::hex << "0x" << (int)(image_truecolor[y_pos][i]) << " ";
-		// std::cout << "\n";
 		bytes_writer(&image_truecolor[y_pos][0], width * 3 + 1);
 		crc.crc_update(&image_truecolor[y_pos][0], width * 3 + 1);
 		adler.checksum(&image_truecolor[y_pos][0], width * 3 + 1);
@@ -186,8 +185,11 @@ void	UncomPngWriter::block_writer(uint16_t bytes_to_write)
 	}
 }
 
-void    UncomPngWriter::save_image()
+
+void	UncomPngWriter::writeIDAT()
 {
+	uint8_t		adler_be[4] = {0x0, 0x0, 0x0, 0x0};
+	uint8_t		crc_be[4] = {0x0, 0x0, 0x0, 0x0};
 	uint32_t	block_nums;
 	uint16_t	size, block_size;
 
@@ -198,8 +200,6 @@ void    UncomPngWriter::save_image()
 	size = (DEFLATE_MAX_BLOCK_SIZE / (width * 3 + 1)) * (width * 3 + 1);
 	block_nums = data_size / size + (data_size % size != 0);
 
-	// std::cout << "appropriate size of block: " << size << "\n";
-	// std::cout << "block_nums: " << block_nums << "\n";
 	for (uint32_t i = 0; i < block_nums; ++i)
 	{
 		block_size = (i == block_nums - 1) ? data_size : size;
@@ -216,23 +216,43 @@ void    UncomPngWriter::save_image()
 		block_writer(block_size);
 	}
 
-	uint8_t footer[] = {  // 20 bytes long
-		0, 0, 0, 0,  // DEFLATE Adler-32 placeholder
-		0, 0, 0, 0,  // IDAT CRC-32 placeholder
+	// ! writing adler checksum at the end of the DEFLATE
+	put_bytes_big_endian(adler.get_adler(), &adler_be[0]);
+	bytes_writer(adler_be, 4);
+
+	// ! update crc value, and write it at the end of IDAT chunk
+	crc.crc_update(&adler_be[0], 4);
+	put_bytes_big_endian(crc.get_crc_value(), &crc_be[0]);
+	bytes_writer(crc_be, 4);
+}
+
+void    UncomPngWriter::save_image()
+{
+	prepareIDAT();
+	writeIDAT();
+
+	uint8_t footer[] = {
 		// IEND chunk
 		0x00, 0x00, 0x00, 0x00,
 		0x49, 0x45, 0x4E, 0x44,
 		0xAE, 0x42, 0x60, 0x82,
 	};
 
-	put_bytes_big_endian(adler.get_adler(), &footer[0]);
-	crc.crc_update(&footer[0], 4);
-	put_bytes_big_endian(crc.get_crc_value(), &footer[4]);
-	bytes_writer(footer, 20);
+	bytes_writer(footer, 12);
 }
+
+
 
 
 void	UncomPngWriter::bytes_writer(uint8_t *data, uint32_t n)
 {
 	png_output.write(reinterpret_cast<const char *>(data), n);
+}
+
+void	UncomPngWriter::put_bytes_big_endian(uint32_t v, uint8_t *mem)
+{
+	mem[0] = v >> 24;
+	mem[1] = v >> 16;
+	mem[2] = v >> 8;
+	mem[3] = v;
 }

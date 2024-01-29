@@ -67,6 +67,17 @@ bool    Graph::point_occupied(const Vector2& p) const
     return (false);
 }
 
+bool    Graph::point_occupied(double x, double y) const
+{
+	for (std::vector<Vector2>::const_iterator cit = points.begin(); cit != points.end(); ++cit)
+	{
+		// if (std::abs((double)cit->get_x() - x) <= 0.1 && std::abs((double)cit->get_y() - y) <= 0.1)
+		if (std::pow(x - (double)cit->get_x(), 2) + std::pow(y - (double)cit->get_y(), 2) - 0.04 <= 0.1)
+			return (true);
+	}
+    return (false);
+}
+
 bool	Graph::cross_line(int col, int row) const
 {
 	for (std::vector<std::pair<Vector2, Vector2> >::const_iterator it = lines.begin(); it != lines.end(); ++it)
@@ -97,13 +108,39 @@ int	Graph::digit_count(int nbr) const
 
 void	Graph::save_as_png(std::string output_file)
 {
-	uint32_t		white_color = ~0x0;
+	uint32_t		white_color = ~0x0, color;
 	int				width = 500, height = 500;
 	UncomPngWriter	png_writer(height, width, output_file);
 
 	for (int y = 0; y < height; ++y)
+	{
 		for (int x = 0; x < width; ++x)
-			png_writer.put_pixel(x, y, white_color);
+		{
+			color = white_color;
+			if ((x >= width / 2 - 1 && x <= width / 2 + 1) || (y >= height / 2 - 1 && y <= height / 2 + 1))
+				color = 0x0;
+			
+			if ((x >= width / 2 - 4 && x <= width / 2 + 4) && y % (width / (2 * (int)size.get_y())) == 0)
+				color = 0x0;
+			
+			if ((y >= height / 2 - 4 && y <= height / 2 + 4) && x % (height / (2 * (int)size.get_x())) == 0)
+				color = 0x0;
+
+			png_writer.put_pixel(x, y, color);
+		}
+	}
+
+	for (int y = 0; y < height; ++y)
+	{
+		for (int x = 0; x < width; ++x)
+		{
+			double d_x = (x * (2*size.get_x())) / width - size.get_x();
+			double d_y = size.get_x() - (y * (2*size.get_x())) / height;
+
+			if (point_occupied(d_x, d_y))
+				png_writer.put_pixel(x, y, 0x0000ff);
+		}
+	}
 
 	png_writer.save_image();
 }
