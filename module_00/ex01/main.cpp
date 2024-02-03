@@ -8,8 +8,9 @@ int main(void)
     g.add_point(Vector2(5, 5));
     g.add_point(Vector2(0, 0));
 	g.add_point(Vector2(2, 2));
-	// g.add_point(Vector2(4, 2));
+	g.add_point(Vector2(9, 5));
 	g.add_point(Vector2(2, 4));
+	g.add_point(Vector2(5, 2));
     // g.add_line(Vector2(0, 0), Vector2(5, 5));
 
     std::cout << g << "\n";

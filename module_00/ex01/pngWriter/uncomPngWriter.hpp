@@ -12,6 +12,8 @@
 
 #define DEFLATE_MAX_BLOCK_SIZE UINT16_MAX
 
+// RawPNGWriter
+
 class UncomPngWriter
 {
 private:

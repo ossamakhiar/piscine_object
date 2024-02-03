@@ -2,7 +2,7 @@
 
 
 // ! maybe it should be a single dimenssion array and they store the point
-// ! when it can to printing search for if the current position is sat
+// ! when it come to printing search for if the current position is sat
 Graph::Graph(Vector2 s) : size(s)
 {
     // for (int y = 0; y < (int)size.get_y(); y++)
@@ -39,6 +39,8 @@ void    Graph::add_point(const Vector2& v)
     if (v.get_x() > size.get_x() || 
         v.get_y() > size.get_y())
         throw MyRuntimeError("x, y out of the graph size");
+	// if (point_occupied(v))
+	// 	return ;
     points.push_back(v);
 }
 

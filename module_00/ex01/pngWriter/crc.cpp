@@ -26,7 +26,7 @@ void    Crc::reset()
 void	Crc::crc_update(uint8_t  *data, uint32_t bytes)
 {
 	if (!data || !bytes)
-		std::runtime_error("invalid input to crc algo");
+		std::runtime_error("Unable to calculate crc checksum, The provided data is null or invalid");
 	crc = ~crc;
 	for (uint32_t i = 0; i < bytes; ++i)
 	{

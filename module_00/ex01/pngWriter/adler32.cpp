@@ -27,6 +27,10 @@ void	Adler32::reset()
 
 void	Adler32::checksum(uint8_t *data, size_t len)
 {
+    if (!data || !len) {
+        throw std::runtime_error("Unable to calculate adler checksum, The provided data is null or invalid");
+    }
+
     // * Adler-32 checksum calculation.
 	for (size_t i = 0; i < len; i++)
 	{

@@ -4,24 +4,22 @@ UncomPngWriter::UncomPngWriter(uint32_t  h, uint32_t w, std::string output) : he
 {
     std::cout << "Constructing the png writer\n";
 
-	x_pos = y_pos = 0;
-	this->data_size = 0;
-
     if (width == 0 || height == 0 ||
 		width > 500 || height > 500)
 			throw std::runtime_error("width and height of the image should be between 1, 500");
+
+	x_pos = y_pos = 0;
+	this->data_size = 0;
 
 	image_truecolor.resize(height);
 	for (size_t i = 0; i < height; ++i)
 		image_truecolor[i].resize(width * 3 + 1);
 
 	png_output.open(output_path, std::ios::out | std::ios::binary);
-
 	if (!png_output.is_open())
 		throw std::runtime_error("Can't open the file: " + output);
-	
-	writeIHDR(height, width);
 
+	writeIHDR(height, width);
 	calculate_idat_length();
 }
 
@@ -188,7 +186,7 @@ void	UncomPngWriter::block_writer(uint16_t bytes_to_write)
 
 void	UncomPngWriter::writeIDAT()
 {
-	uint8_t		adler_be[4] = {0x0, 0x0, 0x0, 0x0};
+	uint8_t		adler_be[4] = {0x0, 0x0, 0x0, 0x0}; // adler checksum in big endian
 	uint8_t		crc_be[4] = {0x0, 0x0, 0x0, 0x0};
 	uint32_t	block_nums;
 	uint16_t	size, block_size;
@@ -246,13 +244,25 @@ void    UncomPngWriter::save_image()
 
 void	UncomPngWriter::bytes_writer(uint8_t *data, uint32_t n)
 {
+	if (!data)
+		throw std::runtime_error("Unable to write, The provided data is null or invalid");
 	png_output.write(reinterpret_cast<const char *>(data), n);
 }
 
+
+/***
+ * @brief Converts a 32-bit (4 bytes) little-endian value to big-endian and stores it in a contiguous memory location.
+ * @param v The little-endian value to be converted
+ * @param mem The memory location to store the result in big-endian format
+ * @throws std::runtime_error if the provided memory address is invalid (nullptr)
+ */
 void	UncomPngWriter::put_bytes_big_endian(uint32_t v, uint8_t *mem)
 {
-	mem[0] = v >> 24;
+	if (!mem)
+		throw std::runtime_error("bad address");
+
+	mem[0] = v >> 24; // *Most significant byte at the smallest mem address
 	mem[1] = v >> 16;
 	mem[2] = v >> 8;
-	mem[3] = v;
+	mem[3] = v; // *Least significant byte at the highest mem address
 }
