@@ -189,13 +189,14 @@ void	UncomPngWriter::writeIDAT()
 	uint8_t		adler_be[4] = {0x0, 0x0, 0x0, 0x0}; // adler checksum in big endian
 	uint8_t		crc_be[4] = {0x0, 0x0, 0x0, 0x0};
 	uint32_t	block_nums;
-	uint16_t	size, block_size;
+	uint16_t	size, block_size, row_size;
 
 	// ** DEFLATE_MAX_BLOCK_SIZE is the maximum size of a DEFLATE block,
 	// ** and dividing it by the row size (width * 3 + 1) gives the number of rows that can fit into a block
 	// ** The goal is to create blocks that are as large as possible
 
-	size = (DEFLATE_MAX_BLOCK_SIZE / (width * 3 + 1)) * (width * 3 + 1);
+	row_size = (width * 3 + 1); // every pixel consist of 3 bytes and +1 for fillter byte
+	size = (DEFLATE_MAX_BLOCK_SIZE / row_size) * row_size;
 	block_nums = data_size / size + (data_size % size != 0);
 
 	for (uint32_t i = 0; i < block_nums; ++i)
