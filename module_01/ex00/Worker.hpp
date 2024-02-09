@@ -9,6 +9,7 @@
 #include "Position.hpp"
 #include "Statistic.hpp"
 #include "Tool.hpp"
+#include "Workshop.hpp"
 
 
 # define ORANGE "\e[1;33m"
@@ -22,10 +23,16 @@ private:
 	Position    coordonnee;
 	Statistic   stat;
 	// ! The Worker must now be able to have multiple tools simultaneously
-	std::set<Tool *> tools;
-	// Tool		*tool; // aggregation relationship each object in this relation has its own life-cycle
+	std::set<Tool *> tools; // aggregation relationship each object in this relation has its own life-cycle
+
+	std::set<Workshop *>	workshops;
+
 
 	Worker();
+
+	// ! helpers
+	bool    is_shovel(Tool *tool);
+	bool    is_hammer(Tool *tool);
 
 public:
 
@@ -46,8 +53,8 @@ public:
 	void    take_tool(Tool *tool);
 	void    use_tool();
 
-	// void    take_shovel(Shovel *shovel);
-	// void    use_shovel();
+	void	workshop_subscribing(Workshop *);
+	void	workshop_unsubscribing(Workshop *);
 
 	friend  std::ostream& operator<<(std::ostream& os, const Worker& worker);
 };

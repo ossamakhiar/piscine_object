@@ -1,4 +1,6 @@
 #include "Worker.hpp"
+#include "Shovel.hpp"
+#include "Hammer.hpp"
 
 
 // ? Creating a worker and printing its details.
@@ -37,14 +39,14 @@ void    test2()
     std::cout << john << "\n";
 
     try {
-        john.take_shovel(shovel1);
-        john.use_shovel();
+        john.take_tool(shovel1);
+        john.use_tool();
 
         Worker steeve("steeve", crd, stat);
 
 
-        steeve.take_shovel(shovel1);
-        steeve.use_shovel();
+        steeve.take_tool(shovel1);
+        steeve.use_tool();
     }
     catch (std::exception& e)
     {
@@ -60,26 +62,30 @@ void    test3()
     Statistic   stat = {5, 8};
     Shovel  *shovel1 = new Shovel();
     Shovel  *shovel2 = new Shovel();
+    Hammer  *hammer1 = new Hammer();
 
     Worker  alan("alan", crd, stat);
 
     try {
-        alan.take_shovel(shovel1);
+        alan.take_tool(shovel1);
 
         delete shovel1;
-        alan.use_shovel();
+        alan.use_tool();
+        std::cout << "here\n";
     } catch (std::exception& e) {
         std::cout << e.what() << "\n";
     }
 
     try {
-        alan.take_shovel(shovel2);
-        alan.use_shovel();
+        alan.take_tool(shovel2);
+        alan.take_tool(hammer1);
+        alan.use_tool();
     } catch (std::exception& e) {
         std::cout << e.what() << "\n";
     }
 
     delete  shovel2;
+    delete  hammer1;
 }
 
 int main(void)

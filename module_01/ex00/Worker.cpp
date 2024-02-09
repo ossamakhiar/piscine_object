@@ -1,11 +1,12 @@
 #include "Worker.hpp"
+#include "Shovel.hpp"
+#include "Hammer.hpp"
 
 Worker::Worker(const std::string& name, const Position& crd, const Statistic& st)
 {
 	this->name = name;
     this->coordonnee = crd;
     this->stat = st;
-    this->shovel = NULL;
 
     std::cout << "A new Worker has joined. Coordinates and statistics have been initialized.\n";
 }
@@ -16,7 +17,8 @@ Worker::~Worker()
     // ? When a Worker is destroyed, its components (coordinates and statistics) are also destroyed.
 
     // ! i should detach the worker from the tool subject
-    // this->tools
+    for (std::set<Tool *>::iterator it = tools.begin(); it != tools.end(); ++it)
+        (*it)->detach();
 }
 
 Position    Worker::get_cords() const
@@ -44,55 +46,79 @@ void    Worker::set_stat(const Statistic& st)
     this->stat = st;
 }
 
+bool    Worker::is_shovel(Tool *tool)
+{
+    return (dynamic_cast<Shovel *>(tool) != NULL);
+}
+
+bool    Worker::is_hammer(Tool *tool)
+{
+   return (dynamic_cast<Hammer *>(tool) != NULL);
+}
+
 void    Worker::take_tool(Tool *tool)
 {
+    std::string tool_name = "unknown";
+
     if (!tool)
         throw std::runtime_error("Bad tool address");
     tool->attach(this);
-    tools.push_back(tool);
+    tools.insert(tool);
+    if (is_shovel(tool))
+        tool_name = "Shovel";
+    else if (is_hammer(tool))
+        tool_name = "Hammer";
+    std::cout << "The worker " << ORANGE << name << WHITE << " take a " << tool_name << "\n";
 }
 
-void    Worker::use_tool()
+void    Worker::use_tool(Tool *tool)
 {
-    // ! should i use all tools
+    if (tools.size() == 0 || tools.count(tool) == 0)
+        throw std::runtime_error(std::string("the worker ") + ORANGE + name + WHITE + " doesn't have this tool");
+
+    std::cout << ORANGE << name << WHITE << ": ";
+    tool->use();
 }
-
-// void    Worker::take_shovel(Shovel *shovel)
-// {
-//     if (!shovel)
-//         throw std::runtime_error("shovel pointer is null");
-//     this->shovel = shovel;
-//     shovel->attach(this);// attach or register the this worker (observer) to the Shovel (subject) 
-// 	std::cout << "the worker " << ORANGE << name << WHITE << " take a shovel\n";
-// }
-
-// void    Worker::use_shovel()
-// {
-//     if (!shovel)
-//         throw std::runtime_error(std::string("the worker ") + ORANGE + name + WHITE + " doesn't have a shovel");
-//     shovel->use();
-//     std::cout << "shovel used by the worker " << ORANGE << name << WHITE << "\n";
-// }
 
 // get notified by the shovel (subject) to break the relationship
 void    Worker::update(Tool *tool)
 {
-    if (!tools.size() == 0)
+    std::string tool_name = "unknown";
+
+    if (tools.size() == 0)
         return ;
-    tools.remove(tool);
-    // this->shovel = NULL;
-    // std::cout << "The shovel has been taken from the worker " << ORANGE << name << WHITE << ".\n";
+    tools.erase(tool);
+
+    // informing that the relationship broken
+    if (is_shovel(tool))
+        tool_name = "Shovel";
+    else if (is_hammer(tool))
+        tool_name = "Hammer";
+    std::cout << "the Tool " << tool_name << " has been taken from the worker " << ORANGE << name << WHITE << ".\n";
 }
 
 
-// void    Worker::update()
-// {
-//     if (!shovel)
-//         return ;
-//     this->shovel = NULL;
-//     std::cout << "The shovel has been taken from the worker " << ORANGE << name << WHITE << ".\n";
-// }
+void	Worker::workshop_subscribing(Workshop *workshop)
+{
+    if (workshop == NULL || workshop.count(workshop) == 1)
+        return ;
+    try {
+        workshop->signup(this);
+        workshops.insert(workshop);
+    } catch (std::exception& e) {
+        std::cout << e.what() << "\n";
+    }
+}
 
+void	Worker::workshop_unsubscribing(Workshop *workshop)
+{
+    if (workshop == NULL || workshops.count(workshop) == 0)
+        return ;
+
+    workshop->unregister(this);
+    workshops.erase(workshop);
+    std::cout << ORANGE << name << WHITE << " unregister from a workshop\n";
+}
 
 
 
