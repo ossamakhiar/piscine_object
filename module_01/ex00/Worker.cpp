@@ -64,6 +64,7 @@ void    Worker::take_tool(Tool *tool)
         throw std::runtime_error("Bad tool address");
     tool->attach(this);
     tools.insert(tool);
+
     if (is_shovel(tool))
         tool_name = "Shovel";
     else if (is_hammer(tool))
@@ -71,7 +72,7 @@ void    Worker::take_tool(Tool *tool)
     std::cout << "The worker " << ORANGE << name << WHITE << " take a " << tool_name << "\n";
 }
 
-void    Worker::use_tool(Tool *tool)
+void    Worker::work(Tool *tool)
 {
     if (tools.size() == 0 || tools.count(tool) == 0)
         throw std::runtime_error(std::string("the worker ") + ORANGE + name + WHITE + " doesn't have this tool");
@@ -89,6 +90,10 @@ void    Worker::update(Tool *tool)
         return ;
     tools.erase(tool);
 
+    std::set<IWorkshop *>   copy = workshops; // ! copying to avoid accessing to undefined iterator after erasing
+    for (std::set<IWorkshop *>::iterator it = copy.begin(); it != copy.end(); ++it)
+        (*it)->tool_loosed(this);
+
     // informing that the relationship broken
     if (is_shovel(tool))
         tool_name = "Shovel";
@@ -98,26 +103,29 @@ void    Worker::update(Tool *tool)
 }
 
 
-void	Worker::workshop_subscribing(Workshop *workshop)
+void	Worker::workshop_subscribing(IWorkshop *workshop)
 {
-    if (workshop == NULL || workshop.count(workshop) == 1)
+    if (workshop == NULL || workshops.count(workshop) == 1)
         return ;
     try {
         workshop->signup(this);
         workshops.insert(workshop);
     } catch (std::exception& e) {
-        std::cout << e.what() << "\n";
+        std::cout << "cannot subscribe: " << e.what() << "\n";
     }
 }
 
-void	Worker::workshop_unsubscribing(Workshop *workshop)
+void	Worker::workshop_unsubscribing(IWorkshop *workshop)
 {
     if (workshop == NULL || workshops.count(workshop) == 0)
+    {
+        std::cout << ORANGE << name << WHITE << " not registered in this workshop\n";
         return ;
+    }
 
     workshop->unregister(this);
     workshops.erase(workshop);
-    std::cout << ORANGE << name << WHITE << " unregister from a workshop\n";
+    std::cout << ORANGE << name << WHITE << " unregistered from a workshop\n";
 }
 
 

@@ -1,6 +1,7 @@
 #include "Worker.hpp"
 #include "Shovel.hpp"
 #include "Hammer.hpp"
+#include "Workshop.hpp"
 
 
 // ? Creating a worker and printing its details.
@@ -40,13 +41,13 @@ void    test2()
 
     try {
         john.take_tool(shovel1);
-        john.use_tool();
+        john.work(shovel1);
 
         Worker steeve("steeve", crd, stat);
 
 
         steeve.take_tool(shovel1);
-        steeve.use_tool();
+        steeve.work(shovel1);
     }
     catch (std::exception& e)
     {
@@ -70,7 +71,7 @@ void    test3()
         alan.take_tool(shovel1);
 
         delete shovel1;
-        alan.use_tool();
+        alan.work(shovel1);
         std::cout << "here\n";
     } catch (std::exception& e) {
         std::cout << e.what() << "\n";
@@ -79,7 +80,7 @@ void    test3()
     try {
         alan.take_tool(shovel2);
         alan.take_tool(hammer1);
-        alan.use_tool();
+        alan.work(hammer1);
     } catch (std::exception& e) {
         std::cout << e.what() << "\n";
     }
@@ -88,11 +89,62 @@ void    test3()
     delete  hammer1;
 }
 
+void    test4()
+{
+    Position    crd = {5, 1, 4};
+    Statistic   stat = {5, 8};
+    Worker  alan("alan", crd, stat), bent("bent", crd, stat), steeve("steeve", crd, stat);
+    Hammer  hammer;
+    Shovel  shovel;
+    Hammer  *hammer2 = new Hammer();
+    Shovel  *shovel2 = new Shovel();
+
+    Workshop<Shovel>    shovel_workshop1;
+    Workshop<Hammer>    hammer_workshop1;
+
+    std::cout << alan << "\n";
+    std::cout << bent << "\n";
+    std::cout << steeve << "\n";
+
+    std::cout << "****************************\n";
+
+    alan.take_tool(&shovel);
+    alan.take_tool(&hammer);
+
+    bent.take_tool(hammer2);
+
+    steeve.take_tool(shovel2);
+
+    alan.workshop_subscribing(&shovel_workshop1);
+    alan.workshop_subscribing(&hammer_workshop1);
+
+    bent.workshop_subscribing(&shovel_workshop1);
+    bent.workshop_subscribing(&hammer_workshop1);
+
+    steeve.workshop_subscribing(&shovel_workshop1);
+    steeve.workshop_subscribing(&hammer_workshop1);
+
+    shovel_workshop1.executeWorkDay();
+    hammer_workshop1.executeWorkDay();
+
+    std::cout << ORANGE << "bent" << WHITE << " will unsubscribe from the workshops\n";
+    bent.workshop_unsubscribing(&shovel_workshop1);
+    bent.workshop_unsubscribing(&hammer_workshop1);
+    std::cout << "\n";
+
+    shovel_workshop1.executeWorkDay();
+    hammer_workshop1.executeWorkDay();
+
+    delete shovel2;
+    delete hammer2;
+}
+
 int main(void)
 {
     // test1();
 
     // test2();
-    test3();
+    // test3();
+    test4();
     return (0);
 }

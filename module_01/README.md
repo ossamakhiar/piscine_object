@@ -12,7 +12,7 @@ A third relationship type features objects with a common responsibility, yet nei
 
 Let's use a computer system as an object to illustrate these relationships in a real-world context, aiding in code organization, maintenance, and extension.
 
-- The `Central Processing Unit (CPU)` and the `Screen` exhibit a loose relationship. While the screen is a distinct object, it contributes to the computer's functionality when associated with it, enhancing display capabilities.
+- The `Central Processing Unit (CPU)` and the `Screen` exhibit a loose relationship. While the screen is a distinct object, it contributes to the computer's functionality when associated with it, enhanvcing display capabilities.
 
 - In contrast, the `CPU` and the `Graphics Processing Unit (GPU)` share a strong relationship. The GPU is an integral part of the computer, essential for its functionality. The computer is the main object, and the GPU is a contained object crucial to its operation.
 
@@ -32,11 +32,96 @@ In the context of object interactions, an object may play one of the following r
 
 - **Proxy**: This object has the capability to both perform operations on other objects and be subject to operations from others. Proxies are commonly employed to represent real-world objects within the application's domain. 🔄
 
+## Association relationship 🔗
 
+**Definition:** Association represents a relationship between two or more objects, indicating that they are connected in some way. It is a more generic relationship that does not specify the strength or nature of the connection.
+
+### Example:
+
+Consider a scenario where a `Teacher` is associated with multiple `Students`. The association does not dictate ownership, and both teachers and students can exist independently. The relationship is characterized by the teacher having students, but students are not owned by the teacher.
+
+### C++ Example:
+
+```cpp
+#include <iostream>
+#include <vector>
+
+class Student {
+public:
+    std::string name;
+
+    Student(std::string studentName) : name(studentName) {}
+};
+
+class Teacher {
+public:
+    std::string name;
+    std::vector<Student> students;
+
+    Teacher(std::string teacherName) : name(teacherName) {}
+
+    void enrollStudent(const Student& student) {
+        students.push_back(student);
+    }
+
+    void displayTeacherInfo() {
+        std::cout << "Teacher: " << name << std::endl;
+        std::cout << "Students Enrolled:" << std::endl;
+        for (const auto& student : students) {
+            std::cout << "- " << student.name << std::endl;
+        }
+    }
+};
+
+// Association between Teacher and Student
+Teacher mathTeacher("Ms. Johnson");
+Student student1("Alice");
+Student student2("Bob");
+
+mathTeacher.enrollStudent(student1);
+mathTeacher.enrollStudent(student2);
+
+// Display Teacher and Student Information
+mathTeacher.displayTeacherInfo();
+```
+<hr>
+<b>Aggregation and Composition are specific types of associations (subsets of association) representing specialized cases within the broader concept of association.</b>
+<br>
+<br>
+<style>
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+.main-image,
+.hover-image {
+    max-width: 500px;
+    transition: opacity 0.6s ease;
+}
+.hover-image {
+    position: absolute;
+    top: 20px;
+    left: 50px; /* Adjust the left position as needed */
+    opacity: 0;
+}
+.image-container:hover .main-image {
+    opacity: 0;
+}
+.image-container:hover .hover-image {
+    opacity: 1;
+}
+
+
+</style>
+<div class="image-container">
+    <img src="./imgs/association.jpg" class="main-image">
+    <img src="./imgs/association1.png" class="hover-image">
+</div>
+<hr>
 
 ## Aggregation relationship 🔗
 
-**Aggregation** represents a =="has-a"== relationship where one object contains another object, but the contained object can exist independently. Aggregation is a weaker form of association.
+**Aggregation** represents a =="has-a"== relationship where one object contains another object, but the contained object can exist independently. **Aggregation is a weaker form of association**.
 In aggregation the life cycle of owning object and owned object are independent. unlike a composition relationship, where death of the owning object means the death of its owned objects. aggregation allows the owned objects to persist even after the owning object ceases to exist.
 
 ### Example:
@@ -156,62 +241,3 @@ The difference between `composition` and `aggregation` lies in the **strength** 
 Consider <a href="https://en.wikipedia.org/wiki/Object_composition#Aggregation">this example (wiki)</a>, Aggregation differs from ordinary composition in that it does not imply ownership. In composition, when the owning object is destroyed, so are the contained objects. In aggregation, this is not necessarily true. For example, a university owns various departments (e.g., chemistry), and each department has a number of professors. If the university closes, the departments will no longer exist, but the professors in those departments will continue to exist. Therefore, a **university can be seen as a composition of departments**, whereas **departments have an aggregation of professors**. In addition, a professor could work in more than one department, but a department could not be part of more than one university.
 
 <br>
-
-## Association relationship
-
-Association represents a relationship between two or more objects, indicating that they are connected in some way. It is a more generic relationship that does not specify the strength or nature of the connection.
-
-### Real-life example:
-
-Consider a scenario where a `Teacher` is associated with multiple `Students`. The association does not dictate ownership, and both teachers and students can exist independently. The relationship is characterized by the teacher having students, but students are not owned by the teacher.
-
-### C++ Example:
-
-```cpp
-#include <iostream>
-#include <vector>
-
-class Student {
-private:
-    std::string name;
-
-public:
-    Student(std::string studentName) : name(studentName) {}
-};
-
-class Teacher {
-private:
-    std::string name;
-    std::vector<Student> students;
-
-public:
-    Teacher(std::string teacherName) : name(teacherName) {}
-
-    void enrollStudent(const Student& student) {
-        students.push_back(student);
-    } 
-
-    void displayTeacherInfo() {
-        std::cout << "Teacher: " << name << std::endl;
-        std::cout << "Students Enrolled:" << std::endl;
-        for (const auto& student : students) {
-            std::cout << "- " << student.name << std::endl;
-        }
-    }
-};
-
-int main() {
-    // Association between Teacher and Student
-    Teacher mathTeacher("Ms. Johnson");
-    Student student1("Alice");
-    Student student2("Bob");
-
-    mathTeacher.enrollStudent(student1);
-    mathTeacher.enrollStudent(student2);
-
-    // Display Teacher and Student Information
-    mathTeacher.displayTeacherInfo();
-
-    return (0);
-}
-```

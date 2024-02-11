@@ -33,15 +33,17 @@ private:
 
     // * should add allocate uint8_t (maybe for performance)???
 
-    void	calculate_idat_length(void);
-    void    writeIHDR(uint32_t height, uint32_t width);
-    void    prepareIDAT();
-    void	writeIDAT();
+    uint8_t*    get_deflate_header(bool last_block, uint16_t block_size);
+    void	    calculate_idat_length(void);
+    void        writeIHDR(uint32_t height, uint32_t width);
+    void        prepareIDAT();
+    void	    writeIDAT();
 
     uint32_t	calc_block_nums();
     void	    block_writer(uint16_t bytes_to_write);
 
     void	put_bytes_big_endian(uint32_t v, uint8_t *mem);
+    int     big_endian(int le);
     void	bytes_writer(uint8_t *data, uint32_t n);
 
 

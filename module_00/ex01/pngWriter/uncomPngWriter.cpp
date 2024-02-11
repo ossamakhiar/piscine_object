@@ -83,6 +83,19 @@ void    UncomPngWriter::put_color_map(std::vector<uint8_t> pixel_map)
 	(void)pixel_map;
 }
 
+uint8_t*	UncomPngWriter::get_deflate_header(bool last_block, uint16_t block_size)
+{
+	uint8_t*	deflate_hdr = new uint8_t[5];
+
+	deflate_hdr[0] = last_block ? 1 : 0;
+	deflate_hdr[1] = block_size & 0xff;
+	deflate_hdr[2] = block_size >> 8;
+	deflate_hdr[3] = ~deflate_hdr[1];
+	deflate_hdr[4] = ~deflate_hdr[2];
+
+	return (deflate_hdr);
+}
+
 void	UncomPngWriter::calculate_idat_length(void)
 {
 	uint32_t	block_nums;
@@ -183,7 +196,6 @@ void	UncomPngWriter::block_writer(uint16_t bytes_to_write)
 	}
 }
 
-
 void	UncomPngWriter::writeIDAT()
 {
 	uint8_t		adler_be[4] = {0x0, 0x0, 0x0, 0x0}; // adler checksum in big endian
@@ -202,17 +214,13 @@ void	UncomPngWriter::writeIDAT()
 	for (uint32_t i = 0; i < block_nums; ++i)
 	{
 		block_size = (i == block_nums - 1) ? data_size : size;
-		uint8_t deflate_header[] = {  // 5 bytes long
-			static_cast<uint8_t>(i == block_nums - 1),
-			static_cast<uint8_t>(block_size >> 0),
-			static_cast<uint8_t>(block_size >> 8),
-			static_cast<uint8_t>((block_size >> 0) ^ 0xFF),
-			static_cast<uint8_t>((block_size >> 8) ^ 0xFF),
-		};
+		uint8_t*	deflate_header = get_deflate_header(i == block_nums - 1, block_size);
+
 		crc.crc_update(deflate_header, 5);
 		bytes_writer(deflate_header, 5);
 
 		block_writer(block_size);
+		delete[]	deflate_header;
 	}
 
 	// ! writing adler checksum at the end of the DEFLATE
@@ -243,6 +251,7 @@ void    UncomPngWriter::save_image()
 
 
 
+
 void	UncomPngWriter::bytes_writer(uint8_t *data, uint32_t n)
 {
 	if (!data)
@@ -266,4 +275,18 @@ void	UncomPngWriter::put_bytes_big_endian(uint32_t v, uint8_t *mem)
 	mem[1] = v >> 16;
 	mem[2] = v >> 8;
 	mem[3] = v; // *Least significant byte at the highest mem address
+}
+
+
+int	UncomPngWriter::big_endian(int le)
+{
+	int			ret = 0;
+	uint8_t*	mem = reinterpret_cast<uint8_t*>(&le);
+
+	ret = mem[0] << 24;
+	ret |= mem[1] << 16;
+	ret |= mem[2] << 8;
+	ret |= mem[3] << 0;
+
+	return (ret);
 }

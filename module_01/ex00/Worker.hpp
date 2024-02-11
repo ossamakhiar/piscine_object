@@ -9,11 +9,12 @@
 #include "Position.hpp"
 #include "Statistic.hpp"
 #include "Tool.hpp"
-#include "Workshop.hpp"
 
 
 # define ORANGE "\e[1;33m"
 # define WHITE "\e[0m"
+
+class IWorkshop;
 
 class Worker
 {
@@ -25,7 +26,7 @@ private:
 	// ! The Worker must now be able to have multiple tools simultaneously
 	std::set<Tool *> tools; // aggregation relationship each object in this relation has its own life-cycle
 
-	std::set<Workshop *>	workshops;
+	std::set<IWorkshop *>	workshops;
 
 
 	Worker();
@@ -51,14 +52,28 @@ public:
 	void	update(Tool *tool);
 
 	void    take_tool(Tool *tool);
-	void    use_tool();
+	// void    use_tool(Tool *tool);
+	void	work(Tool *tool);
 
-	void	workshop_subscribing(Workshop *);
-	void	workshop_unsubscribing(Workshop *);
+	void	workshop_subscribing(IWorkshop *);
+	void	workshop_unsubscribing(IWorkshop *);
+
+
+
+	template <typename T>
+	T	*getTool() {
+		T	*ret = NULL;
+
+		for (std::set<Tool *>::iterator it = tools.begin();it != tools.end(); ++it)
+			if ((ret = dynamic_cast<T *>((*it))))
+				return (ret);
+		return (NULL);
+	}
 
 	friend  std::ostream& operator<<(std::ostream& os, const Worker& worker);
 };
 
+#include "Workshop.hpp"
 
 // * an object is an entity that has state (properies), behavior (operations), identity (type)...
 // * the behavior of an object is influenced by its history (state)
