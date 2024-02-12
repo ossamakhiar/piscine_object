@@ -17,8 +17,11 @@ void    test1()
     std::cout << worker << "\n";
     std::cout << "\e[1;32m---------------\e[0m\n";
 
-    worker.set_cords({2, 0, 3});
-    worker.set_stat({12, 20});
+
+    Position    crd1 = {2, 0, 3};
+    Statistic   stat1 = {12, 20};
+    worker.set_cords(crd1);
+    worker.set_stat(stat1);
 
 
     std::cout << worker << "\n";
@@ -115,28 +118,77 @@ void    test4()
 
     steeve.take_tool(shovel2);
 
-    alan.workshop_subscribing(&shovel_workshop1);
-    alan.workshop_subscribing(&hammer_workshop1);
+    try {
+        shovel_workshop1.signup(&alan);
+        hammer_workshop1.signup(&alan);
+    }
+    catch (std::exception& e) {
+        std::cout << "ERROR: " << e.what() << "\n";
+    }
 
-    bent.workshop_subscribing(&shovel_workshop1);
-    bent.workshop_subscribing(&hammer_workshop1);
+    try {
+        shovel_workshop1.signup(&steeve);
+        hammer_workshop1.signup(&steeve);
+    } catch (std::exception& e) {
+        std::cout << "ERROR: " << e.what() << "\n";
+    }
 
-    steeve.workshop_subscribing(&shovel_workshop1);
-    steeve.workshop_subscribing(&hammer_workshop1);
+    try {
+        hammer_workshop1.signup(&bent);
+        shovel_workshop1.signup(&bent);
+    } catch (std::exception& e) {
+        std::cout << "ERROR: " << e.what() << "\n";
+    }
 
     shovel_workshop1.executeWorkDay();
     hammer_workshop1.executeWorkDay();
 
     std::cout << ORANGE << "bent" << WHITE << " will unsubscribe from the workshops\n";
-    bent.workshop_unsubscribing(&shovel_workshop1);
-    bent.workshop_unsubscribing(&hammer_workshop1);
+    shovel_workshop1.unregister(&bent);
+    hammer_workshop1.unregister(&bent);
     std::cout << "\n";
 
     shovel_workshop1.executeWorkDay();
     hammer_workshop1.executeWorkDay();
 
     delete shovel2;
-    delete hammer2;
+    delete hammer2; 
+}
+
+
+// ? This test ensures that when a worker passes away, they are no longer tied to the tools,
+// ? and any workshops they participated in will no longer retain those associations
+void    test5()
+{
+    Position    crd = {5, 1, 4};
+    Statistic   stat = {5, 8};
+    Worker  *alan = new Worker("alan", crd, stat);
+    Tool    *shovel = new Shovel();
+    Tool    *shovel1 = new Shovel();
+    Tool    *hammer = new Hammer();
+
+    IWorkshop    *shovel_workshop = new Workshop<Shovel>();
+    IWorkshop    *hammer_workshop = new Workshop<Hammer>();
+
+    alan->take_tool(shovel);
+    alan->take_tool(shovel1);
+    alan->take_tool(hammer);
+
+    shovel_workshop->signup(alan);
+    hammer_workshop->signup(alan);
+
+    shovel_workshop->executeWorkDay();
+    hammer_workshop->executeWorkDay();
+
+    std::cout << "\e[1;35mWhat will happen if will remove alan\n\e[0m";
+    delete alan;
+
+    delete shovel;
+    delete shovel1;
+    delete hammer;
+    delete hammer_workshop;
+    delete shovel_workshop;
+
 }
 
 int main(void)
@@ -145,6 +197,7 @@ int main(void)
 
     // test2();
     // test3();
-    test4();
+    // test4();
+    test5();
     return (0);
 }

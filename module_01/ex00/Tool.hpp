@@ -18,8 +18,8 @@ class Tool
 protected:
 	int numberOfUses;
 	Worker	*worker; // the subject have only one observer
-					// Pointer to the current owner of the shovel. When this pointer changes, 
-				   // it serves as a notification that the shovel's state has changed,
+					// Pointer to the current owner of the Tool. When this pointer changes, 
+				   // it serves as a notification that the Tool's state has changed,
 				  // indicating that the tool is no longer in use by the previous owner.
 
 public:

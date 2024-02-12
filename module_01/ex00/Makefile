@@ -7,10 +7,10 @@ CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 all: $(NAME)
 
 %.o:%.cpp
-	$(CPP)  -c $< -o $@
+	$(CPP) $(CPPFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CPP)  $(OBJS) -o $(NAME)
+	$(CPP) $(CPPFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	rm -rf $(OBJS)

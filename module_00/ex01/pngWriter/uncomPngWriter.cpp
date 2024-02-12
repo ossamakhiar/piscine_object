@@ -19,8 +19,8 @@ UncomPngWriter::UncomPngWriter(uint32_t  h, uint32_t w, std::string output) : he
 	if (!png_output.is_open())
 		throw std::runtime_error("Can't open the file: " + output);
 
-	writeIHDR(height, width);
 	calculate_idat_length();
+	writeIHDR(height, width);
 }
 
 
@@ -65,7 +65,7 @@ void    UncomPngWriter::put_pixel(int x, int y, uint8_t red, uint8_t green, uint
 
 uint32_t UncomPngWriter::get_pixel(int x, int y)
 {
-    int offset = x * 3 + 1;  // Assuming filter byte is at index 0
+    int offset = x * 3 + 1;  // +1 due the fact that the filter byte is at index 0
 
     uint8_t red = image_truecolor[y][offset];
     uint8_t green = image_truecolor[y][offset + 1];
@@ -98,32 +98,37 @@ uint8_t*	UncomPngWriter::get_deflate_header(bool last_block, uint16_t block_size
 
 void	UncomPngWriter::calculate_idat_length(void)
 {
-	uint32_t	block_nums;
-
-	data_size = width * 3 + 1; // line size rgb and filter byte
-
-	// if (data_size >= UINT16_MAX)
+	row_size = width * 3 + 1; // every pixel consist of 3 bytes and +1 for fillter byte
 	if (data_size >= DEFLATE_MAX_BLOCK_SIZE)
 		throw std::runtime_error("image is too large");
 
-	data_size *= height;
+	data_size = row_size * height;
 	if (data_size >= UINT32_MAX)
 		throw std::runtime_error("image is too large");
+	
+	// ** DEFLATE_MAX_BLOCK_SIZE is the maximum size of a DEFLATE block,
+	// ** and dividing it by the row size (width * 3 + 1) gives the number of rows that can fit into a block
+	// ** The goal is to create blocks that are as large as possible
 
-	block_nums = data_size / DEFLATE_MAX_BLOCK_SIZE;
-	if (data_size % DEFLATE_MAX_BLOCK_SIZE != 0)
-		block_nums++;
+	max_block_size = (DEFLATE_MAX_BLOCK_SIZE / row_size) * row_size; // max_block_size is the largest multiple of row_size smaller that DEFLATE_MAX_SIZE
+	block_nums = data_size / max_block_size + (data_size % max_block_size != 0);
 
 	//Each DEFLATE uncompressed block header requires 5 bytes, the zlib header takes 2 bytes, and the zlib Adler-32 footer consumes 4 bytes
 	idat_length = block_nums * 5 + 6 + data_size;
 	if (idat_length >= UINT32_MAX)
 		throw std::runtime_error("Image too large");
+
+	// std::cout << "IDAT length: " << idat_length << "\n";
+	// std::cout << "data_size: " << data_size << "\n";
+	// std::cout << "max_block_size: " << max_block_size << "\n";
+	// std::cout << "block numbers: " << block_nums << "\n";
+	// std::cout << "row size: " << row_size << "\n";
 }
 
 
 void    UncomPngWriter::writeIHDR(uint32_t height, uint32_t width)
 {
-	uint8_t	header[] = {
+	uint8_t	header[33] = {
 		// magic bytes - signature
 		0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
 		// IHDR chunk
@@ -200,21 +205,12 @@ void	UncomPngWriter::writeIDAT()
 {
 	uint8_t		adler_be[4] = {0x0, 0x0, 0x0, 0x0}; // adler checksum in big endian
 	uint8_t		crc_be[4] = {0x0, 0x0, 0x0, 0x0};
-	uint32_t	block_nums;
-	uint16_t	size, block_size, row_size;
+	uint16_t	block_size;
 
-	// ** DEFLATE_MAX_BLOCK_SIZE is the maximum size of a DEFLATE block,
-	// ** and dividing it by the row size (width * 3 + 1) gives the number of rows that can fit into a block
-	// ** The goal is to create blocks that are as large as possible
-
-	row_size = (width * 3 + 1); // every pixel consist of 3 bytes and +1 for fillter byte
-	size = (DEFLATE_MAX_BLOCK_SIZE / row_size) * row_size;
-	block_nums = data_size / size + (data_size % size != 0);
-
-	for (uint32_t i = 0; i < block_nums; ++i)
+	for (uint32_t i = 1; i <= block_nums; ++i)
 	{
-		block_size = (i == block_nums - 1) ? data_size : size;
-		uint8_t*	deflate_header = get_deflate_header(i == block_nums - 1, block_size);
+		block_size = (i == block_nums) ? data_size : max_block_size;
+		uint8_t*	deflate_header = get_deflate_header(i == block_nums, block_size);
 
 		crc.crc_update(deflate_header, 5);
 		bytes_writer(deflate_header, 5);
@@ -239,7 +235,6 @@ void    UncomPngWriter::save_image()
 	writeIDAT();
 
 	uint8_t footer[] = {
-		// IEND chunk
 		0x00, 0x00, 0x00, 0x00,
 		0x49, 0x45, 0x4E, 0x44,
 		0xAE, 0x42, 0x60, 0x82,

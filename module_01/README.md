@@ -88,40 +88,20 @@ mathTeacher.displayTeacherInfo();
 <b>Aggregation and Composition are specific types of associations (subsets of association) representing specialized cases within the broader concept of association.</b>
 <br>
 <br>
-<style>
-.image-container {
-    position: relative;
-    display: inline-block;
-}
-.main-image,
-.hover-image {
-    max-width: 500px;
-    transition: opacity 0.6s ease;
-}
-.hover-image {
-    position: absolute;
-    top: 20px;
-    left: 50px; /* Adjust the left position as needed */
-    opacity: 0;
-}
-.image-container:hover .main-image {
-    opacity: 0;
-}
-.image-container:hover .hover-image {
-    opacity: 1;
-}
 
-
-</style>
 <div class="image-container">
-    <img src="./imgs/association.jpg" class="main-image">
-    <img src="./imgs/association1.png" class="hover-image">
+    <img src="./imgs/association.jpg">
 </div>
+
+<br>
+<br>
+The remaining three essential class relationships are specific form of association relationships. during development, this is exactly how
+relationships tend to evolve. We first assert the existence of a semantic connection between two classes and then, as we make tactical decisions about the exact nature of their relationship, often refine them into generalization (inheritance), aggregation, or composition relationships.
 <hr>
 
 ## Aggregation relationship 🔗
 
-**Aggregation** represents a =="has-a"== relationship where one object contains another object, but the contained object can exist independently. **Aggregation is a weaker form of association**.
+**Aggregation** represents a <span style="background-color: #FFFF00">"has-a"</span> relationship where one object contains another object, but the contained object can exist independently. **Aggregation is a weaker form of association**.
 In aggregation the life cycle of owning object and owned object are independent. unlike a composition relationship, where death of the owning object means the death of its owned objects. aggregation allows the owned objects to persist even after the owning object ceases to exist.
 
 ### Example:
@@ -179,7 +159,8 @@ int main(void) {
 
 ## Composition relationship ⚙️
 
-Composition is a stronger form of aggregation where one object is composed of other objects, and the composed objects have a strong dependency on the container object. If the container is destroyed, the composed objects are also destroyed.
+Composition is a stronger form of aggregation where one object is composed of other objects (part/whole), and the composed objects have a strong dependency on the container object. If the container is destroyed, the composed objects are also destroyed.
+`Composition implies that the construction and destruction of these parts occurs as a consequence of the construction and destruction of the aggregate.`
 
 ### Example:
 

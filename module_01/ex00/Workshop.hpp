@@ -1,17 +1,10 @@
 #ifndef WORKSHOP_HPP
 # define WORKSHOP_HPP
 
-#include "Worker.hpp"
 #include <set>
-
-class IWorkshop
-{
-public:
-    virtual void    signup(Worker *worker) = 0;
-    virtual void    unregister(Worker *worker) = 0;
-    virtual void    tool_loosed(Worker *worker) = 0;
-    virtual void    executeWorkDay() = 0; // ? not nessecry to include this in the interface.
-};
+#include <typeinfo>
+#include "Worker.hpp"
+#include "IWorkshop.hpp"
 
 template <typename T>
 class Workshop : public IWorkshop
@@ -22,8 +15,13 @@ private:
     /* data */
 
 public:
-    Workshop() {};
-    ~Workshop() {}
+    Workshop() {
+        const std::type_info& ti1 = typeid(T);
+        std::cout << "a new Workshop of type " << ti1.name() << "\n";
+    };
+    ~Workshop() {
+        std::cout << "Workshop destructed\n";
+    }
 
     void    signup(Worker *worker)
     {
@@ -32,22 +30,22 @@ public:
         if (!worker->getTool<T>())
             throw std::runtime_error(std::string("Worker should have the required Tool to join this workshop"));
         workers_list.insert(worker);
-        std::cout << ORANGE << worker->get_name() << WHITE << " join a workshop\n";
+        worker->workshop_subscribing(this);
     }
 
     void    unregister(Worker *worker)
     {
         if (workers_list.count(worker) == 0)
             return ;
-
         workers_list.erase(worker);
-        std::cout << ORANGE << worker->get_name() << WHITE << " released from a workshop\n";
+        worker->workshop_unsubscribing(this);
     }
 
     void    tool_loosed(Worker *worker)
     {
         if (worker->getTool<T>())
             return ;
+        workers_list.erase(worker);
         worker->workshop_unsubscribing(this);
     }
 

@@ -21,6 +21,9 @@ private:
     // uint32_t                offset;
 
     int						            x_pos, y_pos;
+    uint32_t                            block_nums;
+    uint16_t                            max_block_size;
+    uint16_t                            row_size;
 	uint32_t				            data_size;
     Crc						            crc;
     Adler32					            adler;
