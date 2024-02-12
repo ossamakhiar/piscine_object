@@ -117,6 +117,11 @@ mathTeacher.displayTeacherInfo();
     <img src="./imgs/association.jpg" class="main-image">
     <img src="./imgs/association1.png" class="hover-image">
 </div>
+
+<br>
+<br>
+The remaining three essential class relationships are specific form of association relationships. during development, this is exactly how
+relationships tend to evolve. We first assert the existence of a semantic connection between two classes and then, as we make tactical decisions about the exact nature of their relationship, often refine them into generalization (inheritance), aggregation, or composition relationships.
 <hr>
 
 ## Aggregation relationship 🔗
@@ -179,7 +184,8 @@ int main(void) {
 
 ## Composition relationship ⚙️
 
-Composition is a stronger form of aggregation where one object is composed of other objects, and the composed objects have a strong dependency on the container object. If the container is destroyed, the composed objects are also destroyed.
+Composition is a stronger form of aggregation where one object is composed of other objects (part/whole), and the composed objects have a strong dependency on the container object. If the container is destroyed, the composed objects are also destroyed.
+`Composition implies that the construction and destruction of these parts occurs as a consequence of the construction and destruction of the aggregate.`
 
 ### Example:
 

@@ -1,11 +1,11 @@
 #ifndef WORKER_HPP
 # define WORKER_HPP
 
-#include <iostream>
+#include <set>
 #include <sstream>
 #include <iomanip>
+#include <iostream>
 #include <stdexcept>
-#include <set>
 #include "Position.hpp"
 #include "Statistic.hpp"
 #include "Tool.hpp"
@@ -24,7 +24,7 @@ private:
 	Position    coordonnee;
 	Statistic   stat;
 	// ! The Worker must now be able to have multiple tools simultaneously
-	std::set<Tool *> tools; // aggregation relationship each object in this relation has its own life-cycle
+	std::set<Tool *> tools; // aggregation relationship each object in this relationship has its own life-cycle
 
 	std::set<IWorkshop *>	workshops;
 
@@ -52,13 +52,10 @@ public:
 	void	update(Tool *tool);
 
 	void    take_tool(Tool *tool);
-	// void    use_tool(Tool *tool);
-	void	work(Tool *tool);
+	void	work(Tool *tool); // ? since the worker have multiple tools, it is essential for them to know which tool should be used.
 
 	void	workshop_subscribing(IWorkshop *);
 	void	workshop_unsubscribing(IWorkshop *);
-
-
 
 	template <typename T>
 	T	*getTool() {
@@ -75,12 +72,13 @@ public:
 
 #include "Workshop.hpp"
 
+
 // * an object is an entity that has state (properies), behavior (operations), identity (type)...
 // * the behavior of an object is influenced by its history (state)
 /**
  ** object plus the current (usually dynamic) values of each of these properties
  *? state:
- ** The state of an object encompasses all of the (usually static) properties of the
+ ** The state of an object encompasses all of the (usually static) properties of the object
 
  *? behavior:
  ** Behavior is how an object acts and reacts, in terms of its state changes and message passing

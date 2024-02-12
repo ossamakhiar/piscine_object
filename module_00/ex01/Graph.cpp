@@ -73,7 +73,7 @@ bool    Graph::point_occupied(double x, double y) const
 {
 	for (std::vector<Vector2>::const_iterator cit = points.begin(); cit != points.end(); ++cit)
 	{
-		// if (std::abs((double)cit->get_x() - x) <= 0.1 && std::abs((double)cit->get_y() - y) <= 0.1)
+		// Circle equation, r = 0.2, O(x, y), ( x - h )^2 + ( y - k )^2 = r^2
 		if (std::pow(x - (double)cit->get_x(), 2) + std::pow(y - (double)cit->get_y(), 2) - 0.04 <= 0.1)
 			return (true);
 	}

@@ -8,17 +8,22 @@ Worker::Worker(const std::string& name, const Position& crd, const Statistic& st
     this->coordonnee = crd;
     this->stat = st;
 
-    std::cout << "A new Worker has joined. Coordinates and statistics have been initialized.\n";
+    std::cout << "A new Worker " << ORANGE << name  << WHITE << " has joined. Coordinates and statistics have been initialized.\n";
 }
 
 Worker::~Worker()
 {
-    std::cout << "worker is leaving. Coordinates and statistics are going out with it.\n";
-    // ? When a Worker is destroyed, its components (coordinates and statistics) are also destroyed.
-
     // ! i should detach the worker from the tool subject
     for (std::set<Tool *>::iterator it = tools.begin(); it != tools.end(); ++it)
         (*it)->detach();
+    tools.clear();
+
+    std::set<IWorkshop *>   copy = workshops; // ! copying to avoid accessing to undefined iterator after erasing
+    for (std::set<IWorkshop *>::iterator it = copy.begin(); it != copy.end(); ++it)
+        (*it)->tool_loosed(this);
+
+    std::cout << "worker is leaving. Coordinates and statistics are going out with it.\n";
+    // ? When a Worker is destroyed, its components (coordinates and statistics) are also destroyed.
 }
 
 Position    Worker::get_cords() const
@@ -65,10 +70,7 @@ void    Worker::take_tool(Tool *tool)
     tool->attach(this);
     tools.insert(tool);
 
-    if (is_shovel(tool))
-        tool_name = "Shovel";
-    else if (is_hammer(tool))
-        tool_name = "Hammer";
+    tool_name = is_shovel(tool) ? "Shovel" : is_hammer(tool) ? "Hammer" : "Unknown";
     std::cout << "The worker " << ORANGE << name << WHITE << " take a " << tool_name << "\n";
 }
 
@@ -84,22 +86,19 @@ void    Worker::work(Tool *tool)
 // get notified by the shovel (subject) to break the relationship
 void    Worker::update(Tool *tool)
 {
-    std::string tool_name = "unknown";
+    std::string tool_name;
 
     if (tools.size() == 0)
         return ;
     tools.erase(tool);
 
+    // informing that the relationship broken
+    tool_name = is_shovel(tool) ? "Shovel" : is_hammer(tool) ? "Hammer" : "Unknown";
+    std::cout << "the Tool " << tool_name << " has been taken from the worker " << ORANGE << name << WHITE << ".\n";
+
     std::set<IWorkshop *>   copy = workshops; // ! copying to avoid accessing to undefined iterator after erasing
     for (std::set<IWorkshop *>::iterator it = copy.begin(); it != copy.end(); ++it)
         (*it)->tool_loosed(this);
-
-    // informing that the relationship broken
-    if (is_shovel(tool))
-        tool_name = "Shovel";
-    else if (is_hammer(tool))
-        tool_name = "Hammer";
-    std::cout << "the Tool " << tool_name << " has been taken from the worker " << ORANGE << name << WHITE << ".\n";
 }
 
 
@@ -107,12 +106,9 @@ void	Worker::workshop_subscribing(IWorkshop *workshop)
 {
     if (workshop == NULL || workshops.count(workshop) == 1)
         return ;
-    try {
-        workshop->signup(this);
-        workshops.insert(workshop);
-    } catch (std::exception& e) {
-        std::cout << "cannot subscribe: " << e.what() << "\n";
-    }
+
+    workshops.insert(workshop);
+    std::cout << ORANGE << name << WHITE << " join to a workshop\n";
 }
 
 void	Worker::workshop_unsubscribing(IWorkshop *workshop)
@@ -123,10 +119,15 @@ void	Worker::workshop_unsubscribing(IWorkshop *workshop)
         return ;
     }
 
-    workshop->unregister(this);
     workshops.erase(workshop);
     std::cout << ORANGE << name << WHITE << " unregistered from a workshop\n";
 }
+
+
+
+
+
+
 
 
 
