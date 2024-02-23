@@ -90,7 +90,7 @@ mathTeacher.displayTeacherInfo();
 <br>
 
 <div class="image-container">
-    <img src="./imgs/association.jpg">
+    <img src="../imgs/association.jpg">
 </div>
 
 <br>
