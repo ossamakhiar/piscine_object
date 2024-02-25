@@ -8,7 +8,7 @@ class Steering
 
 public:
     void    turn_wheel(int angle) {
-        std::cout << "Turned wheels by " << angle << " degrees.\n".;
+        std::cout << "Turned wheels by " << angle << " degrees.\n";
     }
 
     void    straighten_wheels() {

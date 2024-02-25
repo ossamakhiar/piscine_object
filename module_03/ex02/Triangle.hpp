@@ -1,20 +1,22 @@
 #ifndef TRIANGLE_HPP
 # define TRIANGLE_HPP
 
-class Triangle : Shape
+#include "Shape.hpp"
+
+class Triangle : public Shape
 {
 private:
-    double  a, b, c, h;
+    double  _base, _height;
 
 public:
-    Triangle(double a_, double b_, double c_, double h_) : a(a_), b(b_), c(c_), h(h_) {
+    Triangle(double base, double height) : _base(base), _height(height) {
 
     };
 
     ~Triangle() {};
 
     double  calc_area() {
-        return (h * b) / 2;
+        return (_height * _base) / 2;
     }
 };
 

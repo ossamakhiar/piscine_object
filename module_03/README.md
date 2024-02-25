@@ -180,13 +180,17 @@ Adhering to the Liskov Substitution Principle helps ensure that code is more mod
 ```c++
 // Although the design may appear clean initially...
 
-class IBird {
+class Bird {
 public:
-        virtual void fly() = 0;
-        virtual void walk() = 0;
+        virtual void fly() {
+         std::cout << "Flying..\n";
+        };
+        virtual void walk() {
+         std::cout << "Wlaking...\n";
+        };
 };
 
-class Crow : public IBird {
+class Crow : public Bird {
 public:
 	void walk() {
 		std::cout << "Crow is walking" << std::endl;
@@ -197,7 +201,7 @@ public:
 	}
 };
 
-class Penguin : public IBird {
+class Penguin : public Bird {
 public:
 	void walk() {
 		std::cout << "Penguin is walking" << std::endl;
@@ -208,7 +212,7 @@ public:
 	}
 };
 
-void	doSomething(IBird *bird)
+void	doSomething(Bird *bird)
 {
 	// .....
    bird->fly(); // ERROR Thrown in case of Penguin
@@ -218,8 +222,8 @@ void	doSomething(IBird *bird)
 
 int	main(void)
 {
-	IBird	crow = new Crow();
-	IBird	penguin = new Penguin();
+	Bird	crow = new Crow();
+	Bird	penguin = new Penguin();
 
    doSomething(crow);    // Perform operations with bird
    doSomething(penguin); // Violates LSP when using a Penguin object
@@ -452,27 +456,94 @@ The idea behind DIP is to promote higher abstraction of lower-level modules such
 
 ### Exmaple (voilating DIP)
 
+<img src="../imgs/dep_inversion1.png">
+
 ```c++
+#include <iostream>
+#include <string>
 
-
-
-
-int   main(void)
+class Logger
 {
-   return (0);
+public:
+   void log(const std::string& message) {
+      std::cout << "Log: " << message << std::endl;
+   }
+};
+
+class UserManager
+{
+private:
+   Logger logger;
+
+public:
+   UserManager(Logger logger) : logger(logger) {}
+
+   void add_user(const std::string& user) {
+      // Business logic to add user
+      logger.log("User added: " + user);
+   }
+};
+
+int main(void)
+{
+   Logger logger;
+   UserManager userManager(logger);
+   userManager.add_user("John Doe");
+
+   return 0;
 }
 ```
+
+In this example, the `UserManager` directly creates an instance of the `Logger` class. This tight coupling makes it challenging to replace or extend the logging behavior without modifying the `UserManager` class. It violates the Dependency Inversion Principle, leading to inflexible and less maintainable code.
+To illustrate the potential difficulty further, consider a scenario where the `UserManager` class is very complex. Since the project requirements evolve, it may prompt a shift to a different type of logger, the necessity to alter the `UserManager` class becomes apparent due to its direct and rigid connection with the `Logger` class. This interdependence creates a substantial obstacle, potentially leading to a difficult and error-prone process of adjusting the codebase.
 
 ### Exmpale adhere to DIP
+
+<img src="../imgs/dep_inversion2.png">
+
 ```c++
+#include <iostream>
+#include <string>
 
-
-int   main(void)
+class ILogger
 {
-   
-   return (0);
+public:
+   virtual void log(const std::string& message) = 0;
+};
+
+class ConsoleLogger : public ILogger
+{
+public:
+   void log(const std::string& message) override {
+      std::cout << "Log: " << message << std::endl;
+   }
+};
+
+class UserManager
+{
+private:
+    ILogger& logger;
+
+public:
+   UserManager(ILogger& logger) : logger(logger) {}
+
+   void add_user(const std::string& user) {
+      // Business logic to add user ....
+      logger.log("User added: " + user);
+   }
+};
+
+int main()
+{
+    ConsoleLogger consoleLogger;  // Specific logger implementation
+    UserManager userManager(consoleLogger);
+    userManager.add_user("John Doe");
+
+    return 0;
 }
 ```
+In this example we introduce an abstract `ILogger` class, and the `UserManager` now depends on this abstraction. This adheres to the Dependency Inversion Principle, providing a clear separation of concerns. We can easily introduce different logging implementations without modifying the `UserManager`, making the code more modular, extensible, and easier to maintain during the development journey.
+
 
 <br>
 

@@ -39,6 +39,11 @@ public:
 
     };
 
+    void    add_article(const Article& article)
+    {
+        articles.push_back(article);
+    }
+
     virtual double get_total_price() {
         double  total = 0;
         for (size_t i = 0; i < articles.size(); i++)

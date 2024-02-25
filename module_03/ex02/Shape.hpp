@@ -6,8 +6,13 @@ class   Shape
 protected:
 
 public:
-    virtual double  calc_area() = 0;  
-    virtual ~Shape() {generic};
+    virtual double  calc_area() {
+        return (0);
+    }
+    virtual double  calc_perimeter() {
+        return (0);
+    }
+    virtual ~Shape() {};
 };
 
 #endif
