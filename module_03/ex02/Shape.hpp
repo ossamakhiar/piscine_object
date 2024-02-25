@@ -7,7 +7,7 @@ protected:
 
 public:
     virtual double  calc_area() = 0;  
-    virtual ~Shape() {generic};
+    virtual ~Shape() {};
 };
 
 #endif

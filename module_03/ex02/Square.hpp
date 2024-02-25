@@ -1,7 +1,9 @@
 #ifndef SQUARE_HPP
 # define SQUARE_HPP
 
-class Square
+#include "Shape.hpp"
+
+class Square : public Shape
 {
 private:
     double  side;

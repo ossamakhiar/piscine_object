@@ -1,9 +1,10 @@
 #ifndef CIRCLE_HPP
 # define CIRCLE_HPP
 
+#include "Shape.hpp"
 #include <cmath>
 
-class Circle
+class Circle : public Shape
 {
 private:
     double  radius;
