@@ -2,8 +2,8 @@
 /** Liskov's substitution principle **/
 /*************************************/
 
-//!!! NOT COMPLETED
 
+//!!! NOT COMPLETED
 #include "Shape.hpp"
 #include "Square.hpp"
 #include "Circle.hpp"
