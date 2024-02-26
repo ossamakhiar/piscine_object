@@ -100,13 +100,13 @@ private:
 public:
 	void sign(Form* p_form);
 };
-
+ 
 enum class FormType
 {
-	CourseFinished
-	NeedMoreClassRoom
-	NeedCourseCreation
-	SubscriptionToCourse
+	CourseFinished,
+	NeedMoreClassRoom,
+	NeedCourseCreation,
+	SubscriptionToCourse,
 };
 
 class Form

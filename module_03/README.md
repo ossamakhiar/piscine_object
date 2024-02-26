@@ -182,12 +182,12 @@ Adhering to the Liskov Substitution Principle helps ensure that code is more mod
 
 class Bird {
 public:
-        virtual void fly() {
+      virtual void fly() {
          std::cout << "Flying..\n";
-        };
-        virtual void walk() {
+      };
+      virtual void walk() {
          std::cout << "Wlaking...\n";
-        };
+      };
 };
 
 class Crow : public Bird {
