@@ -29,14 +29,19 @@ private:
 
 public:
 	void attendClass(Classroom* p_classroom) {
+		// ! i think i should check if that classroom is associated with one of the Courses that a Stundent sucribe to it
+		// Change the Person::currentRoom
 		// ....
 	}
 
 	void exitClass() {
+		// exiting normaly but which class, i think the Room that is listed in the Person class
+		// mutate Person::currentRoom
 		// ....
 	}
 
 	void graduate(Course* p_course) {
+		// ???
 		// ...
 	}
 };
