@@ -33,6 +33,9 @@ The implementation involves a static member in the Singleton class which keeps t
 
 # Links
 <a href="https://www.oodesign.com/singleton-pattern">Singleton design pattern (OODesign)</a>
+<br>
 <a href="https://medium.com/geekculture/overview-of-singleton-design-pattern-10b2b18bfd11">Singleton design pattern</a>
+<br>
 <a hre="https://medium.com/@leogbastiani/singleton-vs-global-variables-choosing-the-best-structure-for-your-code-ed25aec3e9f9">Singleton vs global variables</a>
+<br>
 https://www.youtube.com/watch?v=hUE_j6q0LTQ
