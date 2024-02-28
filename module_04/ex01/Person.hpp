@@ -1,5 +1,8 @@
-#pragma once
+#ifndef PERSON_HPP
+# define PERSON_HPP
 
+
+#include <iostream>
 #include <string>
 #include <set>
 #include "Room.hpp"
@@ -7,18 +10,26 @@
 
 class Person
 {
-private:
+protected: // i should back to this
 	std::string _name;
 	Room* _currentRoom;
 
 public:
-	Person(std::string p_name) : _name(p_name) {
+	Person(std::string p_name) : _name(p_name), _currentRoom(NULL) {
 
 	};
+
+	virtual ~Person() {}
 
 	// ! I Should add a room setter....
 
 	Room* room() {return (_currentRoom);}
+
+
+	// * TEST
+	void	introduce() {
+		std::cout << "Person name is " << _name << ", in room " << _currentRoom << "\n"; 
+	}
 };
 
 class Student : public Person
@@ -28,20 +39,23 @@ private:
 	// std::vector<Course*> _subscribedCourse;
 
 public:
-	void attendClass(Classroom* p_classroom) {
-		// ! i think i should check if that classroom is associated with one of the Courses that a Stundent sucribe to it
-		// Change the Person::currentRoom
-		// ....
+	Student(std::string name) : Person(name) {}
+	~Student() {}
+
+	// ? Getter
+	std::string	get_name() const {
+		return (_name);
 	}
+
+	void attendClass(Classroom* p_classroom);
+	void graduate(Course* p_course);
 
 	void exitClass() {
 		// exiting normaly but which class, i think the Room that is listed in the Person class
 		// mutate Person::currentRoom
-		// ....
-	}
-
-	void graduate(Course* p_course) {
-		// ???
-		// ...
+		_currentRoom = NULL;
 	}
 };
+
+
+#endif

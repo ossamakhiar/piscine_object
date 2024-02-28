@@ -10,11 +10,11 @@ enum class FormType
 
 class Form
 {
-private:
+protected: // ? think about that 
 	FormType _formType;
 
 public:
-	Form(FormType p_formType)
+	Form(FormType p_formType) : _formType(p_formType)
 	{
 
 	}
@@ -27,7 +27,14 @@ class CourseFinishedForm : public Form
 private:
 
 public:
-	void execute();
+	CourseFinishedForm() : Form(FormType::CourseFinished) {
+
+	}
+	~CourseFinishedForm() {}
+
+	void execute() {
+
+	}
 };
 
 class NeedMoreClassRoomForm : public Form
@@ -35,7 +42,14 @@ class NeedMoreClassRoomForm : public Form
 private:
 
 public:
-	void execute();
+	NeedMoreClassRoomForm() : Form(FormType::NeedMoreClassRoom) {
+
+	}
+	~NeedMoreClassRoomForm() {}
+
+	void execute() {
+
+	}
 };
 
 class NeedCourseCreationForm : public Form
@@ -43,7 +57,12 @@ class NeedCourseCreationForm : public Form
 private:
 
 public:
-	void execute();
+	NeedCourseCreationForm() : Form(FormType::NeedCourseCreation) {}
+	~NeedCourseCreationForm() {}
+
+	void execute() {
+
+	}
 };
 
 class SubscriptionToCourseForm : public Form
@@ -51,5 +70,10 @@ class SubscriptionToCourseForm : public Form
 private:
 
 public:
-	void execute();
+	SubscriptionToCourseForm() : Form(FormType::SubscriptionToCourse) {}
+	~SubscriptionToCourseForm() {}
+
+	void execute() {
+
+	}
 };

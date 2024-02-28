@@ -17,7 +17,7 @@ private:
 	int _maximumNumberOfStudent;
 
 public:
-	Course(std::string p_name) : _name(p_name) {
+	Course(std::string p_name) : _name(p_name), _numberOfClassToGraduate(0), _maximumNumberOfStudent(0) {
 
 	}
 
@@ -31,7 +31,11 @@ public:
 	void	set__max_student(int p_max) {
 		_maximumNumberOfStudent = p_max;
 	}
-	// ! 2 method added by me
+
+	std::string	get_name() const {
+		return (_name);
+	}
+	// ! method i added
 
 	void assign(Professor* p_professor) {
 		if (!p_professor)
@@ -39,6 +43,7 @@ public:
 		_responsable = p_professor;
 	}
 
+	// //this should be called by the a Staff professor when a Student made a Course subsribtion Form request, maybe not??
 	void subscribe(Student* p_student) {
 		if (!p_student)
 			throw std::runtime_error("Bad Student address");

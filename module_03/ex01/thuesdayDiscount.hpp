@@ -28,10 +28,11 @@ public:
 
     double get_total_price() {
         double total = Command::get_total_price();
+        double discount = 0;
     
         if (is_thuesday())
-            total *= 0.1;
-        return (total);
+            discount = total * 0.1;
+        return (total - discount);
     }
 };
 

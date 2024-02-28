@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	ROOM_HPP
+# define ROOM_HPP
 
 #include <vector>
 #include <set>
@@ -22,7 +23,13 @@ public:
 		_id_counter++;
 	}
 
-	bool canEnter(Person*);
+	// ? Getter
+	// long long get_id()
+
+
+	bool canEnter(Person*) {
+		return (true);
+	}
 	void enter(Person* p_person) {
 		if (!p_person)
 			return ; // Should inform the user for good error debuging
@@ -41,7 +48,7 @@ public:
 class Classroom : public Room
 {
 private:
-	Course* _currentRoom;
+	Course* _course;
 
 public:
 	Classroom() {
@@ -51,13 +58,13 @@ public:
 	void assignCourse(Course* p_course) {
 		if (!p_course)
 			return ; // ! Back Here..
-		_currentRoom = p_course;
+		_course = p_course;
 	}
 
 
 	// ! getter, no need maybe
-	Course	*get_current_room() const {
-		return (_currentRoom);
+	Course	*get_course() const {
+		return (_course); // course currently running in that classroom
 	}
 };
 
@@ -98,7 +105,6 @@ public:
 
 };
 
+#include "Person.hpp"
 
-
-long long Room::_id_counter = 0;
- 
+#endif
