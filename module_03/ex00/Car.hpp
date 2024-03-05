@@ -30,7 +30,7 @@ public:
 	}
 
 	void	shift_gears_up() {
-		gear_lever.gear_lever();
+		gear_lever.shift_gears_up();
 	}
 
 	void	shift_gears_down() {
@@ -42,7 +42,7 @@ public:
 	}
 
 	void	turn_wheel(int angle) {
-		steering.turn_wheel(angel);
+		steering.turn_wheel(angle);
 	}
 
 	void	straighten_wheels() {
@@ -54,11 +54,11 @@ public:
 	}
 
 	void	apply_force_on_brakes(int force) {
-		speed_control.apply_force_on_brakes(force);
+		speed_control.applyBrakes(force);
 	}
 
 	void	apply_emergency_brakes() {
-		speed_control.apply_emergency_brakes();
+		speed_control.applyEmergencyBrakes();
 	}
 };
 

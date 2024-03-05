@@ -23,7 +23,7 @@ public:
         work_hours += hours;
     }
 
-    void    executeWorkday() {
+    int    executeWorkday() {
         return (work_hours);
     }
 };
