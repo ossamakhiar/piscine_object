@@ -186,16 +186,33 @@ int main(void)
 ```
 This example illustrates a scenario involving a light bulb, demonstrating how the Command Design Pattern decouples the sender and receiver, allowing for dynamic and extensible command execution.
 
-By storing commands in the invoker, you create a history of operations. This history can be valuable for implementing features like undoing the last operation or redoing a previously undone operation. The stored commands serve as a record of the actions performed, providing a mechanism for managing the state and history of the application.
+*By storing commands in the invoker, you create a history of operations. This history can be valuable for implementing features like undoing the last operation or redoing a previously undone operation. The stored commands serve as a record of the actions performed, providing a mechanism for managing the state and history of the application.*
 
+### Indicating the action, not how it is done
+the Command Design Pattern provides a valuable perspective that emphasizes indicating the action rather than delving into the intricacies of its execution. A command, such as TurnLightOn or StartCar, encapsulates a clear and intuitive representation of the intended action, fostering immediate comprehension. By utilizing commands, developers can shield the finer details of implementation, promoting a high-level understanding of the operation to be executed. This abstraction allows for a more intuitive and expressive design, enabling team members to collaborate effectively and enhancing the overall maintainability of the codebase. In essence, the Command Design Pattern empowers software architects to prioritize clarity and abstraction, emphasizing the "what" of an action over the "how."
 
 
 
 # Links
+#### Singleton Design Pattern
+<br>
 <a href="https://www.oodesign.com/singleton-pattern">Singleton design pattern (OODesign)</a>
 <br>
 <a href="https://medium.com/geekculture/overview-of-singleton-design-pattern-10b2b18bfd11">Singleton design pattern</a>
 <br>
 <a hre="https://medium.com/@leogbastiani/singleton-vs-global-variables-choosing-the-best-structure-for-your-code-ed25aec3e9f9">Singleton vs global variables</a>
 <br>
-https://www.youtube.com/watch?v=hUE_j6q0LTQ
+<a href="https://www.youtube.com/watch?v=hUE_j6q0LTQ">Singleton Pattern (
+Christopher Okhrav) Video</a>
+
+#### Command Design Pattern
+<br>
+<a href="https://www.oodesign.com/command-pattern">Command Design pattern</a>
+<br>
+<a href="https://refactoring.guru/design-patterns/command">Command Pattern (refactoring guru)</a>
+<br>
+<a href="https://stackoverflow.com/questions/32597736/why-should-i-use-the-command-design-pattern-while-i-can-easily-call-required-met">why should i use the command design pattern</a>
+<br>
+<a href="https://course.ccs.neu.edu/cs5004/lecturecommands.html">The Command Design Pattern</a>
+<br>
+<a href="https://bootcamp.uxdesign.cc/encapsulating-requests-the-power-of-the-command-design-pattern-d2f42b0f9d1d">Encapsulating Requests: The Power of the “Command Design Pattern”</a>
