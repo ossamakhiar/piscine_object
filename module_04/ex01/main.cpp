@@ -55,5 +55,16 @@ int main(void)
 
     delete StudentList::get_instance();
 
+    // Staff   *head = new Headmaster();
+    // std::cout << "HEAD: " << head << "\n";
+    // Staff   *prof = new Professor();;
+    // std::cout << "PROF: " << prof << "\n";
+
+    // // StaffList *s = new StaffList();
+
+
+    // StaffList::get_instance()->add_element(head);
+    // StaffList::get_instance()->add_element(prof);
+    // std::cout << (void*)StaffList::getHeadmaster() << "\n";
     return 0;
 }

@@ -31,6 +31,10 @@ private:
 	std::vector<Form*> _formToValidate;
 	
 public:
+	Headmaster() : Staff("") {
+
+	}
+
 	void receiveForm(Form* p_form) {
 		if (!p_form)
 			return ;
@@ -53,6 +57,9 @@ private:
 	Course* _currentCourse;
 
 public:
+	Professor() : Staff("") {
+
+	}
 	void assignCourse(Course* p_course);
 	void doClass();
 	void closeCourse();

@@ -15,6 +15,7 @@
 template<typename T>
 class   Singleton
 {
+// protected:
 private:
 	std::set<T> elements;
 
@@ -43,6 +44,7 @@ public:
 		// mtx.unlock();
 	}
 
+
 	// TODO: Define get_element and remove_element methods
 	T	get_element(bool (*check_existence)(T)) {
 		for (auto element : elements)
@@ -68,10 +70,42 @@ Singleton<T>* Singleton<T>::instance = nullptr;
 template<typename T>
 std::mutex Singleton<T>::mtx;
 
+class	StaffList : public Singleton<Staff *>
+{
+private:
+	StaffList();
 
-using StudentList = Singleton<Student*>;
-using StaffList = Singleton<Staff*>;
-using CourseList = Singleton<Course*>;
-using RoomList = Singleton<Room*>;
+public:
+	static	Headmaster* getHeadmaster() {
+		for (auto staff : get_instance()->get_elements())
+			if (dynamic_cast<Headmaster*>(staff))
+				return dynamic_cast<Headmaster*>(staff);
+		return (nullptr);
+	}
+};
+
+class	StudentList : public Singleton<Student*>
+{
+private:
+	StudentList();
+public:
+	// Nothing special
+};
+
+class	CourseList : public Singleton<Course*>
+{
+private:
+	CourseList();
+public:
+	// Nothing special
+};
+
+class	RoomList : public Singleton<Room*>
+{
+private:
+	RoomList();
+public:
+	// Nothing special
+};
 
 #endif

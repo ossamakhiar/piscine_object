@@ -193,26 +193,29 @@ the Command Design Pattern provides a valuable perspective that emphasizes indic
 
 
 
+# Mediator Design pattern
+Mediator is a behavioral design pattern that reduces coupling between components of a program by making them communicate indirectly, through a special mediator object.
+
+
 # Links
 #### Singleton Design Pattern
-<br>
-<a href="https://www.oodesign.com/singleton-pattern">Singleton design pattern (OODesign)</a>
-<br>
-<a href="https://medium.com/geekculture/overview-of-singleton-design-pattern-10b2b18bfd11">Singleton design pattern</a>
-<br>
-<a hre="https://medium.com/@leogbastiani/singleton-vs-global-variables-choosing-the-best-structure-for-your-code-ed25aec3e9f9">Singleton vs global variables</a>
-<br>
-<a href="https://www.youtube.com/watch?v=hUE_j6q0LTQ">Singleton Pattern (
-Christopher Okhrav) Video</a>
+
+* <a href="https://www.oodesign.com/singleton-pattern">Singleton design pattern (OODesign)</a>
+
+* <a href="https://medium.com/geekculture/overview-of-singleton-design-pattern-10b2b18bfd11">Singleton design pattern</a>
+
+* <a href="https://medium.com/@leogbastiani/singleton-vs-global-variables-choosing-the-best-structure-for-your-code-ed25aec3e9f9">Singleton vs global variables</a>
+
+* <a href="https://www.youtube.com/watch?v=hUE_j6q0LTQ">Singleton Pattern (Christopher Okhrav) Video</a>
 
 #### Command Design Pattern
-<br>
-<a href="https://www.oodesign.com/command-pattern">Command Design pattern</a>
-<br>
-<a href="https://refactoring.guru/design-patterns/command">Command Pattern (refactoring guru)</a>
-<br>
-<a href="https://stackoverflow.com/questions/32597736/why-should-i-use-the-command-design-pattern-while-i-can-easily-call-required-met">why should i use the command design pattern</a>
-<br>
-<a href="https://course.ccs.neu.edu/cs5004/lecturecommands.html">The Command Design Pattern</a>
-<br>
-<a href="https://bootcamp.uxdesign.cc/encapsulating-requests-the-power-of-the-command-design-pattern-d2f42b0f9d1d">Encapsulating Requests: The Power of the “Command Design Pattern”</a>
+
+* <a href="https://www.oodesign.com/command-pattern">Command Design pattern</a>
+
+* <a href="https://refactoring.guru/design-patterns/command">Command Pattern (refactoring guru)</a>
+
+* <a href="https://stackoverflow.com/questions/32597736/why-should-i-use-the-command-design-pattern-while-i-can-easily-call-required-met">why should i use the command design pattern</a>
+
+* <a href="https://course.ccs.neu.edu/cs5004/lecturecommands.html">The Command Design Pattern</a>
+
+* <a href="https://bootcamp.uxdesign.cc/encapsulating-requests-the-power-of-the-command-design-pattern-d2f42b0f9d1d">Encapsulating Requests: The Power of the “Command Design Pattern”</a>

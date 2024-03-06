@@ -75,16 +75,21 @@ class NeedCourseCreationForm : public Form
 private:
 	// ? same thing in this Form, storing the course will simplify the subsequent retrieval process
 	std::string	course_name;
-	Course	*course;
+	Professor	*professor;
+	Course		*course;
 
 	// ! maybe holding all information about the Course like the number of class to graduate ...
 
 public:
-	NeedCourseCreationForm() : Form(FormType::NeedCourseCreation), course_name(""), course(nullptr) {}
+	NeedCourseCreationForm() : Form(FormType::NeedCourseCreation), course_name(""), professor(nullptr), course(nullptr) {}
 	~NeedCourseCreationForm() {}
 
 	void	set_course_name(const std::string& p_name) {
 		course_name = p_name;
+	}
+
+	void	set_professor(Professor *p_professor) {
+		professor = p_professor;
 	}
 
 	Course	*get_course() const {
@@ -92,7 +97,9 @@ public:
 	}
 
 	void execute() {
-		// ? the question is where would name be got
+		if (course_name.empty() || !professor)
+			throw std::runtime_error("Form Should be filled");
+
 		this->course	= new Course(course_name);
 		// ? should i add it to the Course List ?????????
 		CourseList::get_instance()->add_element(this->course);
