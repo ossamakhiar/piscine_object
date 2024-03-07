@@ -25,7 +25,12 @@ public:
 	Course() : _numberOfClassToGraduate(0), _maximumNumberOfStudent(0), _finished(false) {
 
 	}
+
 	Course(std::string p_name) : _name(p_name), _numberOfClassToGraduate(0), _maximumNumberOfStudent(0) {
+
+	}
+
+	Course(std::string p_name, int n_grad, int max) : _name(p_name), _numberOfClassToGraduate(n_grad), _maximumNumberOfStudent(max) {
 
 	}
 
@@ -63,6 +68,10 @@ public:
 	bool	is_finished() const {
 		return (_finished);
 	}
+
+	const std::set<Student *>& get_subscribed_students() const {
+		return (_students);
+	}
 	// ! method i added ^
 
 	void assign(Professor* p_professor) {
@@ -75,4 +84,3 @@ public:
 	void subscribe(Student* p_student);
 };
 
-#include "Person.hpp"

@@ -1,4 +1,6 @@
 #include "Staff.hpp"
+#include "ConcreteForm.hpp"
+
 
 // ? SECRETARY
 Form*   Secretary::createForm(FormType p_formType)

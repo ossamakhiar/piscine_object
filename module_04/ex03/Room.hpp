@@ -25,6 +25,10 @@ public:
 		_id_counter++;
 	}
 
+	virtual ~Room() {
+
+	}
+
 	// ? Getter
 	long long get_id() {
 		return (this->ID);
@@ -66,6 +70,13 @@ public:
 		course = p_course;
 	}
 
+	void	unassignCourse() {
+		course = nullptr;
+	}
+
+	bool	free() const {
+		return (!course);
+	}
 
 	// ! getter, no need maybe
 	Course	*get_course() const {

@@ -4,8 +4,6 @@
 #include <iostream>
 #include <mutex>
 #include <set>
-#include "Person.hpp"
-#include "Staff.hpp"
 #include <unistd.h>
 
 /***
@@ -70,42 +68,6 @@ Singleton<T>* Singleton<T>::instance = nullptr;
 template<typename T>
 std::mutex Singleton<T>::mtx;
 
-class	StaffList : public Singleton<Staff *>
-{
-private:
-	StaffList();
 
-public:
-	static	Headmaster* getHeadmaster() {
-		for (auto staff : get_instance()->get_elements())
-			if (dynamic_cast<Headmaster*>(staff))
-				return dynamic_cast<Headmaster*>(staff);
-		return (nullptr);
-	}
-};
-
-class	StudentList : public Singleton<Student*>
-{
-private:
-	StudentList();
-public:
-	// Nothing special
-};
-
-class	CourseList : public Singleton<Course*>
-{
-private:
-	CourseList();
-public:
-	// Nothing special
-};
-
-class	RoomList : public Singleton<Room*>
-{
-private:
-	RoomList();
-public:
-	// Nothing special
-};
 
 #endif

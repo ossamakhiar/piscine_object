@@ -1,44 +1,27 @@
-#include "Person.hpp"
-#include "Staff.hpp"
-#include "Course.hpp"
-#include "Room.hpp"
-#include "Form.hpp"
-#include "Singletons.hpp"
-#include "ConcreteForm.hpp"
-#include <thread>
-
-// void addStudents() {
-//     for (int i = 0; i < 5; ++i) {
-//         StudentList::get_instance()->add_element(new Student("oussama"));
-//     }
-// }
-
-bool    check_student_existence(Student *s)
-{
-    if (s->get_name() == "khiar")
-        return (true);
-    return (false);
-}
-
-bool    get_first_room(Room *room) {
-    return (room->get_id() == 0);
-}
+#include "Headmaster.hpp"
+#include "Professor.hpp"
+#include "StudentList.hpp"
 
 int main(void)
 {
-    
+    Headmaster  *headmaster = new Headmaster("Ethan Johnson");
+    ScheduledCourse s("Intoduction to Dynamic programming", 10, 20);
+    Professor   *prof_alan = new Professor("Alan walker");
+    Student     *s_oussama = new Student("Oussama khiar"); 
+    Student     *s_john = new Student("john doe");
 
-    for (auto staff : StaffList::get_instance()->get_elements())
-        delete staff;
-    
-    for (auto student : StudentList::get_instance()->get_elements())
-        delete student;
-    
-    for (auto course : CourseList::get_instance()->get_elements())
-        delete course;
-    
-    for (auto room : RoomList::get_instance()->get_elements())
-        delete room;
+    StaffList::get_instance()->add_element(headmaster);
+    StaffList::get_instance()->add_element(prof_alan);
+
+    StudentList::get_instance()->add_element(s_oussama);
+    StudentList::get_instance()->add_element(s_john);
+
+    prof_alan->schedule_course(s);
+
+    std::cout << "\e[1;32m**************\e[0m\n";
+
+    headmaster->requireProfessorsAttendance();
+
 
     return 0;
 }

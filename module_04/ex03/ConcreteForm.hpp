@@ -1,7 +1,10 @@
 #pragma once
 
-#include "Singletons.hpp"
 #include "Form.hpp"
+#include "Professor.hpp"
+#include "Student.hpp"
+#include "CourseList.hpp"
+#include "RoomList.hpp"
 
 
 /**
@@ -14,9 +17,10 @@ class CourseFinishedForm : public Form
 private:
 	// * course that would set as finished
 	Course	*completedCourse;
+	Professor *professor;
 
 public:
-	CourseFinishedForm() : Form(FormType::CourseFinished), completedCourse(nullptr) {
+	CourseFinishedForm() : Form(FormType::CourseFinished), completedCourse(nullptr), professor(nullptr) {
 
 	}
 	~CourseFinishedForm() {}
@@ -28,15 +32,27 @@ public:
 		completedCourse = course;
 	}
 
+	void	set_professor(Professor *p_professor)
+	{
+		professor = p_professor;
+	}
+
 	// TODO :: sign method which is checks for if the Form is filled
 
 	void execute() {
-		if (!completedCourse)
+		if (!completedCourse || !professor)
 			throw std::runtime_error("Form should be filled first");
 		// ? i should set the given course as finished and maybe also graduate all the Student who attend 
 		// ? the numberOfClassToGraduate
 		completedCourse->set_as_finished();
-		// completedCourse->graduate_student();
+		professor->closeCourse();
+		// mutate the state of the professor who is assigned to this course (by setting the currentCourse to empty) 
+
+		// * Graduate some student
+		// calling completedCourse->graduateStudents();
+		for (auto student : completedCourse->get_subscribed_students())
+			if ((*student)[completedCourse] >= completedCourse->get_nums_graduate()) // error here
+				student->graduate(completedCourse);
 	
 		std::cout << "Course " << completedCourse->get_name() << " is Completed\n";
 		_executed = true;
@@ -73,19 +89,23 @@ public:
 class NeedCourseCreationForm : public Form
 {
 private:
+	// std::string	course_name;
+	// int			_numberOfClassToGraduate;
+	// int			_maximumNumberOfStudent;
+
+	ScheduledCourse	scheduledCourse;
+	Professor		*professor;
 	// ? same thing in this Form, storing the course will simplify the subsequent retrieval process
-	std::string	course_name;
-	Professor	*professor;
 	Course		*course;
 
 	// ! maybe holding all information about the Course like the number of class to graduate ...
 
 public:
-	NeedCourseCreationForm() : Form(FormType::NeedCourseCreation), course_name(""), professor(nullptr), course(nullptr) {}
+	NeedCourseCreationForm() : Form(FormType::NeedCourseCreation), professor(nullptr), course(nullptr) {}
 	~NeedCourseCreationForm() {}
 
-	void	set_course_name(const std::string& p_name) {
-		course_name = p_name;
+	void	set_scheduled_course(const ScheduledCourse& p_sch) {
+		scheduledCourse = p_sch;
 	}
 
 	void	set_professor(Professor *p_professor) {
@@ -97,12 +117,14 @@ public:
 	}
 
 	void execute() {
-		if (course_name.empty() || !professor)
+		if (scheduledCourse.empty() || !professor)
 			throw std::runtime_error("Form Should be filled");
 
-		this->course	= new Course(course_name);
-		// ? should i add it to the Course List ?????????
+		this->course	= new Course(scheduledCourse.get_name(), scheduledCourse.get_number_to_graduate(), scheduledCourse.get_max_students());
 		CourseList::get_instance()->add_element(this->course);
+
+		course->assign(professor);
+		professor->assignCourse(course);
 
 		std::cout << "Course has been created with name " << this->course->get_name() << "\n";
 		_executed = true;
