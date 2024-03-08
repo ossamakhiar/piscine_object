@@ -55,7 +55,7 @@ void	Professor::assignCourse(Course* p_course)
 	if (!p_course)
 		return ;
 	_currentCourse = p_course;
-	std::cout << "Course " << p_course->get_name() << " assigned to Professor [name]\n";
+	std::cout << "Course " << p_course->get_name() << " assigned to Professor " << _name << " \n";
 }
 
 void	Professor::doClass()

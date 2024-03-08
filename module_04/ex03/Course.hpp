@@ -3,6 +3,7 @@
 #include <string>
 #include <set>
 #include <stdexcept>
+#include <iostream>
 
 class Professor;
 class Student;
@@ -50,6 +51,7 @@ public:
 	}
 
 	void	set_as_finished() {
+		// std::cout << "As finished\n";
 		this->_finished = true;
 	}
 

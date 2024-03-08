@@ -1,7 +1,7 @@
 #ifndef HEADMASTER_HPP
 # define HEADMASTER_HPP
 
-#include "Student.hpp"
+// #include "Person.hpp"
 #include "Professor.hpp"
 
 // ? Headmaster plays as an invoker to the Form (Command) by sign it and execute it 
@@ -41,8 +41,10 @@ public:
 	void	requireProfessorsAttendance();
 
 
-	bool	notify(Professor *professor, FormType	request_type);
-	bool	notify(Student *student, FormType	request_type);
+	bool	notify(Person *requester, FormType	request_type);
+
+	// bool	notify(Professor *professor, FormType	request_type);
+	// bool	notify(Student *student, FormType	request_type);
 };
 
 #include "StaffList.hpp"

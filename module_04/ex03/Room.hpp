@@ -48,9 +48,7 @@ public:
 		_occupants.erase(p_person);
 	}
 	
-	void printOccupant() {
-		// ....
-	}
+	void printOccupant();
 };
 
 class Classroom : public Room
@@ -88,10 +86,13 @@ public:
 class SecretarialOffice: public Room
 {
 private:
-	std::vector<Form*> _archivedForms;
+	std::set<Form*> _archivedForms;
 
 public:
 
+	void	archiveForm(Form *form) {
+		_archivedForms.insert(form);
+	}
 };
 
 

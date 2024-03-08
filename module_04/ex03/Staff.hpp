@@ -18,8 +18,8 @@ public:
 	}
 
 	void sign(Form* p_form) {
-		std::cout << "Form has signed the form.\n";
-		(void)p_form;
+		p_form->sign();
+		std::cout << _name  <<" has signed the form.\n";
 	}
 };
 
@@ -39,7 +39,6 @@ public:
 	// ? Secretary in this case functions as a Factory object...
 	Form* createForm(FormType p_formType);
 
-	void archiveForm();
+	void archiveForm(Form *form);
 };
 
-// #include "ConcreteForm.hpp"

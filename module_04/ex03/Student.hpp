@@ -25,11 +25,14 @@ public:
 	void graduate(Course* p_course);
 
 	void	subscribe(Course *course);
-	void	fill(Form *form);
+	void	fill(Form *form) override;
 
 	void exitClass() {
 		// exiting normaly but which class, i think the Room that is listed in the Person class
 		// mutate Person::currentRoom
+		if (!_currentRoom)
+			return ;
+		_currentRoom->exit(this);
 		_currentRoom = NULL;
 	}
 

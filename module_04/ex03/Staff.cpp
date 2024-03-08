@@ -1,5 +1,5 @@
 #include "Staff.hpp"
-#include "ConcreteForm.hpp"
+#include "ConcreteForm.hpp" // ! resolve this..............##$#$#$#$##
 
 
 // ? SECRETARY
@@ -22,8 +22,13 @@ Form*   Secretary::createForm(FormType p_formType)
 }
 
 
-void	Secretary::archiveForm()
+void	Secretary::archiveForm(Form *form)
 {
 	// Nothing for instant
+	SecretarialOffice	*sec_office = RoomList::get_secretary_office();
+
+	if (!sec_office)
+		throw std::runtime_error("Secretary has no office to archive the given form");
+	sec_office->archiveForm(form);
 }
 

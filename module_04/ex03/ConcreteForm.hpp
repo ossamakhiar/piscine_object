@@ -167,9 +167,11 @@ public:
 		if (!student || !course)
 			throw std::runtime_error("Form should be filled first");
 			// return ; // ! i should throw some kind of errors
+		if ((int)course->get_subscribed_students().size() >= course->get_max_student())
+			throw std::runtime_error("Class has reached its capacity");
 		course->subscribe(student);
 	
-		std::cout << "Student " << student->get_name() << " subscribed to the course " << course->get_name() << "\n";
+		// std::cout << "Student " << student->get_name() << " subscribed to the course " << course->get_name() << "\n";
 		_executed = true;
 	}
 };

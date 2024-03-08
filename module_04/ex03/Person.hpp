@@ -32,9 +32,27 @@ public:
 		return (_currentRoom);
 	}
 
+	void	enterRoom(Room *room) {
+		if (!room)
+			return ;
+		room->enter(this);
+		_currentRoom = room;
+	}
+
+	void	exitRoom() {
+		if (!_currentRoom)
+			return ;
+		_currentRoom->exit(this);
+		_currentRoom = NULL;
+	}
+
 	// * TEST
 	void	introduce() {
 		std::cout << "Person name is " << _name << ", in room " << _currentRoom << "\n"; 
+	}
+
+	std::string get_name() const {
+		return (_name);
 	}
 };
 

@@ -2,7 +2,7 @@ NAME = a.out
 SRCS = $(wildcard *.cpp)
 OBJS = $(SRCS:.cpp=.o)
 CPP = c++
-CPPFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CPPFLAGS = -Wall -Wextra -Werror -ILists -fsanitize=address
 
 all: $(NAME)
 

@@ -66,9 +66,11 @@ public:
 	void	schedule_course(const ScheduledCourse& s);
 
 	// void	noCourseToTeach(const std::string& course_name);
-	void	fill(Form *form);
+	void	fill(Form *form) override;
 };
 
+#include "Headmaster.hpp"
+#include "ConcreteForm.hpp"
 
 
 #endif

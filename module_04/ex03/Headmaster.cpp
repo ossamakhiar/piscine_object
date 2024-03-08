@@ -22,7 +22,7 @@ void	Headmaster::executeForms()
 void	Headmaster::executeForm(Form *form)
 {
 	if (!form->is_signed())
-		return ;
+		throw std::runtime_error("Form note signed yet");
 	std::cout << "Headmaster Mr. " << _name << ", executes a form\n";
 	form->execute();
 	// ! i should remove it and tell the secretary to archive it
@@ -37,7 +37,7 @@ void	Headmaster::requireProfessorsAttendance()
 }
 
 
-bool	Headmaster::notify(Professor *professor, FormType request_type)
+bool	Headmaster::notify(Person *requester, FormType request_type)
 {
 	Form		*form;
 	Secretary	*sec = StaffList::get_secretary();
@@ -46,59 +46,37 @@ bool	Headmaster::notify(Professor *professor, FormType request_type)
 	if (!sec)
 		throw std::runtime_error("We need to hire a secretary!");
 
-	if (!(request_type == FormType::NeedCourseCreation || request_type == FormType::CourseFinished \
-		|| request_type == FormType::NeedMoreClassRoom))
-		return (false);
-	// {
-	// 	form = sec->createForm(request_type); // this form of type NeedCourseCreationForm
-	// 	professor->fill(form);
-	// 	valide_request = true;
-	// }
-	// else if (request_type == FormType::CourseFinished)
-	// {
-	// 	form = sec->createForm(request_type); // this form of type CourseFinishedForm
-	// 	professor->fill(form);
-	// 	valide_request = true;
-	// }
-	// else if (request_type == FormType::NeedMoreClassRoom)
-	// {
-	// 	form = sec->createForm(request_type);
-
-	// }
-
 	form = sec->createForm(request_type);
-	professor->fill(form);
+	requester->fill(form);
 
 	this->sign(form);
 	this->executeForm(form);
 
+	// archive the form
+	sec->archiveForm(form);
 	// ! Now in case of CourseFinished event i should emit to the student that he's graduate in this course
 	// ! but where here or in the Form execution, for instant i'll putt it in the execution of the Form....
-	// if (request_type == FormType::CourseFinished)
-	// {
-	// 	CourseFinishedForm	*f_form = dynamic_cast<CourseFinishedForm *>(form);
-	// 	for (auto student : f_form->)
-	// }
 	return (true);
 }
 
-bool	Headmaster::notify(Student *student, FormType request_type)
-{
-	Form	*form;
-	Secretary	*sec = StaffList::get_secretary();
 
-	if (!sec)
-		throw std::runtime_error("We need to hire a secretary!");
-	if (request_type == FormType::SubscriptionToCourse)
-	{
-		form = sec->createForm(FormType::SubscriptionToCourse); // this form of type NeedCourseCreationForm
-		student->fill(form);
-	}
-	else
-		return false;
-	// if (!valide_request)
-	// 	return (valide_request);
-	this->sign(form);
-	this->executeForm(form);
-	return (true);
-}
+// bool	Headmaster::notify(Student *student, FormType request_type)
+// {
+// 	Form	*form;
+// 	Secretary	*sec = StaffList::get_secretary();
+
+// 	if (!sec)
+// 		throw std::runtime_error("We need to hire a secretary!");
+// 	if (request_type == FormType::SubscriptionToCourse)
+// 	{
+// 		form = sec->createForm(FormType::SubscriptionToCourse); // this form of type NeedCourseCreationForm
+// 		student->fill(form);
+// 	}
+// 	else
+// 		return false;
+// 	// if (!valide_request)
+// 	// 	return (valide_request);
+// 	this->sign(form);
+// 	this->executeForm(form);
+// 	return (true);
+// }
