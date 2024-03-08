@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FORM_HPP
+# define FORM_HPP
 
 enum class FormType
 {
@@ -35,3 +36,5 @@ public:
 
 	virtual void execute() = 0;
 };
+
+#endif

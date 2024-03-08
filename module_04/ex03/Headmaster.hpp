@@ -4,17 +4,16 @@
 // #include "Person.hpp"
 #include "Professor.hpp"
 
-// ? Headmaster plays as an invoker to the Form (Command) by sign it and execute it 
-// ???? Headmaster also plays as Mediator between the Secratery class and other classes
+// ?Headmaster serves as the invoker for Form (Command) objects, signing and executing them.
+// ?Additionally, Headmaster acts as a Mediator between the Secretary class and other classes
 class Headmaster : public Staff
 {
 private:
   /**
    * The Invoker (Headmaster) does not depend on concrete command (Form) classes. The
-   * ? Invoker passes a request to a receiver indirectly, by executing a command. ???????????????
+   * ? Invoker passes a request to a receiver indirectly, by executing a command.
    */
 	std::vector<Form*> _formToValidate;
-	// std::map<Request, void (Headmaster::*)(void)>	requests;
 	
 public:
 	Headmaster(std::string name) : Staff(name) {
@@ -27,7 +26,8 @@ public:
 		_formToValidate.push_back(p_form);
 	}
 
-	// ? it coherent to have this function which called before the form execution
+	// Validates all received forms by signing them.
+    // This function is typically called before form execution.
 	void	signForms() {
 		for (auto form : _formToValidate)
 			form->sign();
@@ -42,9 +42,6 @@ public:
 
 
 	bool	notify(Person *requester, FormType	request_type);
-
-	// bool	notify(Professor *professor, FormType	request_type);
-	// bool	notify(Student *student, FormType	request_type);
 };
 
 #include "StaffList.hpp"

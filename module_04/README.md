@@ -13,14 +13,15 @@ Lastly, the Course class plays a pivotal role, encompassing a list of enrolled s
 <hr>
 
 ## What is a design pattern
-As <a href="https://en.wikipedia.org/wiki/Software_design_pattern">wikipedia</a> says, "Design pattern is a general reusable solution to a commonly occurring problem within a given context in software design"
+As [Wikipedia](https://en.wikipedia.org/wiki/Software_design_pattern) defines, a "Design Pattern" is a general reusable solution to a commonly occurring problem within a given context in software design.
 
-In other words, we can say that Design Pattern provides proven solution to solve commonly occurring problems in software (generally big) applications. Implementation of a particular design pattern in any application increases flexibility, maintainability and readability of the application. Before implementing any design pattern in the application, first we should be clear about the problem that can be solved by a particular design pattern.
+In other words, Design Patterns provide proven solutions to commonly occurring problems in software applications. Implementing a particular design pattern enhances flexibility, maintainability, and readability. Before implementing any design pattern, it's crucial to clearly understand the problem that the pattern can solve.
 
 ## How Design Patterns Help Us
-Application can be developed without implementing design patterns. Without using design pattern, initially application development time will be less but as application functionalities grow, you will realize that it is very difficult to change, maintain or understand the design. That’s where Design Pattern helps us to identify a general issue and solve it in the best possible manner.
+While applications can be developed without implementing design patterns, doing so leads to challenges in changing, maintaining, or understanding the design as functionalities grow. Design Patterns help identify general issues and solve them in the best possible manner.
 
-The first and most important part while working with Design Patterns is to understand the context and exact issue in application. Once the problem is identified, then it is easy to figure out which Design Pattern should be used to solve indentified problem.
+The first and most important step in working with Design Patterns is understanding the context and the exact issue in the application. Once the problem is identified, it becomes easier to determine which Design Pattern should be used to solve the identified problem.
+
 
 <hr>
 
@@ -75,11 +76,11 @@ The pattern introduces an Invoker class, responsible for triggering the executio
 
 **Key components of the Command Design Pattern:**
 
-* **Command**: This is an interface or an abstract class that defines the common methods for executing a command, typically including an execute() method.
-* **ConcreteCommand**: This class implements the Command interface and represents a specific command along with its parameters. It encapsulates the receiver object and binds the receiver with the action to be performed.
-* **Receiver**: This class defines the operations that need to be performed when a command is executed. It knows how to carry out the request.
-* **Invoker**: This class requests the command to carry out the action. It contains a reference to the command and can invoke the command when needed.
-* **Client**: This is the class or component that creates the command objects, sets the receiver for the command, and assigns the command to the invoker.
+- **Command**: This is an interface or an abstract class that defines the common methods for executing a command, typically including an `execute()` method.
+- **ConcreteCommand**: This class implements the Command interface and represents a specific command along with its parameters. It encapsulates the receiver object and binds the receiver with the action to be performed.
+- **Receiver**: This class defines the operations that need to be performed when a command is executed. It knows how to carry out the request.
+- **Invoker**: This class requests the command to carry out the action. It contains a reference to the command and can invoke the command when needed.
+- **Client**: This is the class or component that creates the command objects, sets the receiver for the command, and assigns the command to the invoker.
 
 ### Code Example:
 ```c++
@@ -190,6 +191,11 @@ This example illustrates a scenario involving a light bulb, demonstrating how th
 
 ### Indicating the action, not how it is done
 the Command Design Pattern provides a valuable perspective that emphasizes indicating the action rather than delving into the intricacies of its execution. A command, such as TurnLightOn or StartCar, encapsulates a clear and intuitive representation of the intended action, fostering immediate comprehension. By utilizing commands, developers can shield the finer details of implementation, promoting a high-level understanding of the operation to be executed. This abstraction allows for a more intuitive and expressive design, enabling team members to collaborate effectively and enhancing the overall maintainability of the codebase. In essence, the Command Design Pattern empowers software architects to prioritize clarity and abstraction, emphasizing the "what" of an action over the "how."
+
+
+### illustrating the subject example
+
+<img src="../imgs/command2.png">
 
 
 

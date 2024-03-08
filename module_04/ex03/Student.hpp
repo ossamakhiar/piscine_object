@@ -6,36 +6,27 @@
 class Student : public Person
 {
 private:
-	// std::vector<Course*> _subscribedCourse;
-	Course	*_want_to_register;
+	Course	*_desired_course; // Holds the course the student wishes to register, used when the Headmaster asks the student to fill a form for the desired course
 
-	std::map<Course*, int> _subscribedCourse; // ? mapping every course with the number of attendance
+	std::map<Course*, int> _subscribedCourse; // ? Maps each subscribed course to the number of attendances
+
+	bool	isSubscribed(Course *p_course);
 
 public:
-	Student(std::string name) : Person(name), _want_to_register(nullptr) {}
+	Student(std::string name) : Person(name), _desired_course(nullptr) {}
 	~Student() {}
 
-	// ? Getter
-	std::string	get_name() const {
-		return (_name);
-	}
-
-
-	void attendClass(Classroom* p_classroom);
-	void graduate(Course* p_course);
-
+	void	attendClass(Classroom* p_classroom);
+	void	graduate(Course* p_course);
 	void	subscribe(Course *course);
 	void	fill(Form *form) override;
 
 	void exitClass() {
-		// exiting normaly but which class, i think the Room that is listed in the Person class
-		// mutate Person::currentRoom
 		if (!_currentRoom)
 			return ;
 		_currentRoom->exit(this);
 		_currentRoom = NULL;
 	}
-
 
 	int	operator[](Course *course) const {
 		if (_subscribedCourse.count(course) == 0)

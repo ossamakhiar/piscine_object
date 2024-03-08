@@ -34,10 +34,10 @@ public:
 		return (this->ID);
 	}
 
-
 	bool canEnter(Person*) {
 		return (true);
 	}
+
 	void enter(Person* p_person) {
 		if (!p_person)
 			return ; // Should inform the user for good error debuging

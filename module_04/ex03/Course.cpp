@@ -6,7 +6,5 @@ void    Course::subscribe(Student *p_student)
         throw std::runtime_error("Course finished");
     if (!p_student)
         throw std::runtime_error("Bad Student address");
-    // p_student->subscribe(this);
-    // std::cout << _name << "New student subsribed" << "\n";
     _students.insert(p_student);
 }
