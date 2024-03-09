@@ -2,38 +2,41 @@
 /** Dependency Inversion Principle **/
 /************************************/
 
-#include "DateHeader.hpp"
-#include "ConstantStringHeader.hpp"
 #include "StreamLogger.hpp"
 #include "FileLogger.hpp"
-#include "NonHeaderLogger.hpp"
+#include "DateHeaderLogger.hpp"
+#include "ConstStrHeaderLogger.hpp"
 #include <unistd.h>
 #include <vector>
+
+// !! BAD Implementation
 
 
 int main(void)
 {
-    DateHeader                  date_header;
-    ConstantStringHeader        const_str_header("[***HEADER***]");
     std::vector<ILogger*>       loggers;
     std::vector<std::string>    msgs;
 
-    std::ofstream   out("nonHeader.log");
+    // std::ofstream   out("nonHeader.log");
     
+    FileLogger      *fileLogger = new FileLogger();
+    StreamLogger    *streamLogger = new StreamLogger(std::cout);
 
-    loggers.push_back(new StreamLogger(std::cout, const_str_header));
-    loggers.push_back(new FileLogger(date_header));
-    loggers.push_back(new NonHeaderLogger(out));
+    loggers.push_back(fileLogger);
+    loggers.push_back(streamLogger);
+    loggers.push_back(new DateHeaderLogger(*fileLogger));
+    loggers.push_back(new ConstStrHeaderLogger("[****HEADER****]", *streamLogger));
+
 
     msgs.push_back("Message 1..");
     msgs.push_back("Message 2..");
     msgs.push_back("Message 3..");
 
-    for (size_t j = 0; j < msgs.size(); j++)
-        for (size_t i = 0; i < loggers.size(); i++)
+    for (size_t i = 0; i < loggers.size(); i++)
+        for (size_t j = 0; j < msgs.size(); j++)
             loggers[i]->write(msgs[j]);
 
-    out.close();
+    // out.close();
     for (std::vector<ILogger*>::iterator it = loggers.begin(); it != loggers.end(); it++)
         delete  (*it);
     return (0);

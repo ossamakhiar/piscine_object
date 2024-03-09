@@ -1,17 +1,19 @@
-#ifndef DATE_HEADER_HPP
-# define DATE_HEADER_HPP
+#ifndef DATE_HEADER_LOGGER_HPP
+# define DATE_HEADER_LOGGER_HPP
 
-#include "IHeader.hpp"
+#include "HeadlineLogger.hpp"
 #include <ctime>
 
-class DateHeader : public IHeader
+class DateHeaderLogger : public HeadlineLogger
 {
-    // ? maybe it better to store the message inside the DateHeader class and in case of writing the Logger just pass 
+private:
+    /*data*/
+
 public:
-    DateHeader() {
+    DateHeaderLogger(ILogger& p_logger) : HeadlineLogger(p_logger) {
 
     };
-    ~DateHeader() {};
+    ~DateHeaderLogger() {};
 
     std::string get_header(void) {
         std::time_t currentTime = std::time(0);

@@ -4,16 +4,14 @@
 #include <fstream>
 #include <ctime>
 #include "ILogger.hpp"
-#include "IHeader.hpp"
 
 class FileLogger : public ILogger
 {
 private:
-    IHeader&        _header_provider;
     std::ofstream   fout;
 
 public:
-    FileLogger(IHeader& header_provider) : _header_provider(header_provider) {
+    FileLogger() {
         std::string name = "demo.log";
     
         fout.open(name.c_str(), std::fstream::out | std::fstream::app);
@@ -25,7 +23,6 @@ public:
     };
 
     void    write(std::string message) {
-        fout << _header_provider.get_header() << " ";
         fout << message << "\n";
     }
 };
