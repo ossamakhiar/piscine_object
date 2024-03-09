@@ -44,5 +44,3 @@ int main(void)
 
     return 0;
 }
-
-// !! USE ROOM FUNCTIONALITIES >>>>>>>>>>><<<<<<<<<<<<,,

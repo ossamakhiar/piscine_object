@@ -22,6 +22,11 @@ While applications can be developed without implementing design patterns, doing 
 
 The first and most important step in working with Design Patterns is understanding the context and the exact issue in the application. Once the problem is identified, it becomes easier to determine which Design Pattern should be used to solve the identified problem.
 
+### Creational Design Pattern
+A creational design pattern deals with the process of object creation, providing mechanisms to create instances of classes in a flexible and efficient manner. These patterns abstract the instantiation process, making a system independent of how its objects are created, composed, and represented. One popular creational design pattern is the "Factory Method Pattern."
+
+### Behavioral Design Pattern
+Behavioral design patterns focus on the interaction and collaboration between objects, defining how they communicate, encapsulate responsibilities, and manage relationships. These patterns are concerned with algorithms and assignment of responsibilities between objects, promoting flexibility and maintainability in a system. An example of a behavioral design pattern is the "Observer Pattern."
 
 <hr>
 
@@ -197,11 +202,40 @@ the Command Design Pattern provides a valuable perspective that emphasizes indic
 
 <img src="../imgs/command2.png">
 
-
+---
 
 # Mediator Design pattern
-Mediator is a behavioral design pattern that reduces coupling between components of a program by making them communicate indirectly, through a special mediator object.
+Well-designed enterprise applications follow the Single Responsibility principle, one of the SOLID principles, by using lightweight objects with clear responsibilities. While this method promotes modularity and clarity, the increasing number of small objects presents a communication challenge. As these objects grow in number, managing their interconnections becomes unwieldy. Moreover, direct communication between objects leads to tight coupling, contradicting the SOLID principles.
 
+The Mediator Pattern establishes an intermediary object that encapsulates the communication and interaction logic between a these set of objects. By doing so, it promotes loose coupling, preventing objects from *directly referencing* each other. This design principle allows the interaction dynamics among objects to evolve independently, enhancing flexibility. In practical terms, this implies that objects communicate by sending messages to the mediator, which then efficiently routes or redirects these messages to the appropriate object handlers, facilitating a well-organized and decoupled system.
+
+<img src="../imgs/mediator3.png">
+
+## Participants of the Mediator Pattern
+
+I appreciate John Thompson's in-depth exploration of the Mediator Pattern in his article titled [The Mediator Pattern: Deep Dive](https://dzone.com/articles/mediator-pattern-1):
+
+In a simulated scenario resembling a war zone, where armed units are deployed into enemy territory, various unit types, including soldiers, tanks, grenadiers, and snipers, form a strategic framework. The adopted strategy mandates that when one unit initiates an attack, all other units should stop their attacks and take cover. Achieving this coordination in the programming realm involves creating distinct classes for each armed unit. Within each class, the logic is implemented to notify objects of other classes when an attack is ready to take place.
+
+However, the challenge arises when new units are introduced or when battle tactics evolve, requiring substantial updates to existing classes. To address this, a real-life analogy is employed – introducing a Commander as a mediator. In this analogy, all units refrain from direct communication with each other and instead interact with the Commander. The Commander, informed by notifications from certain units, can then issue requests to one or more other units to perform actions as dictated by the requirements.
+
+The implementation of this mediator role is modeled through a `Commander interface` and a concrete `CommanderImpl` subclass. The `Commander interface` defines methods for sending messages to objects representing armed units, as well as methods that armed unit objects can employ to communicate with the Commander. The `CommanderImpl` subclass, in turn, maintains a reference to the objects representing armed units and overrides the methods of the `Commander interface`. In this example, an `ArmedUnit interface` is introduced, and its implementing classes, `SoldierUnit` and `TankUnit`, represent specific armed units. Both `SoldierUnit` and `TankUnit` hold references to the Commander.
+
+Analyzing this example within the context of the Mediator pattern, the key participants are identified:
+* **Mediator** (Commander): An interface declaring methods for communication with Colleague objects.
+* **ConcreteMediator** (CommanderImpl): Implements the Mediator interface and coordinates Colleague objects.
+* **Colleague** (SoldierUnit and TankUnit): Communicates with its Mediator when their state changes and responds to requests from the Mediator.
+
+<img src="../imgs/mediator4.png">
+
+---
+
+# Observer Design Pattern
+
+
+<br>
+
+---
 
 # Links
 #### Singleton Design Pattern
@@ -216,12 +250,18 @@ Mediator is a behavioral design pattern that reduces coupling between components
 
 #### Command Design Pattern
 
-* <a href="https://www.oodesign.com/command-pattern">Command Design pattern</a>
-
+* <a href="https://www.oodesign.com/command-pattern">Command Design pattern - oodesign</a>
 * <a href="https://refactoring.guru/design-patterns/command">Command Pattern (refactoring guru)</a>
-
 * <a href="https://stackoverflow.com/questions/32597736/why-should-i-use-the-command-design-pattern-while-i-can-easily-call-required-met">why should i use the command design pattern</a>
-
 * <a href="https://course.ccs.neu.edu/cs5004/lecturecommands.html">The Command Design Pattern</a>
-
 * <a href="https://bootcamp.uxdesign.cc/encapsulating-requests-the-power-of-the-command-design-pattern-d2f42b0f9d1d">Encapsulating Requests: The Power of the “Command Design Pattern”</a>
+
+#### Mediator Design Pattern
+
+* <a href="https://dzone.com/articles/mediator-pattern-1">The Mediator Pattern: Deep Dive</a>
+* <a href="https://www.oodesign.com/mediator-pattern">Mediator Pettern - oodesign</a>
+* <a href="https://refactoring.guru/design-patterns/mediator">Mediator Pettern - refactoring.guru</a>
+
+#### Observer Design Pattern
+
+* <a href=""></a>

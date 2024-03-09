@@ -49,6 +49,8 @@ bool	Headmaster::notify(Person *requester, FormType request_type)
 		throw std::runtime_error("We need to hire a secretary!");
 
 	form = sec->createForm(request_type);
+	if (!form)
+		throw std::runtime_error("invalid request type");
 	requester->fill(form);
 
 	this->sign(form);

@@ -51,7 +51,7 @@ public:
 		// * Graduate some student
 		// calling completedCourse->graduateStudents();
 		for (auto student : completedCourse->get_subscribed_students())
-			if ((*student)[completedCourse] >= completedCourse->get_nums_graduate()) // error here
+			if ((*student)[completedCourse] >= completedCourse->get_nums_graduate())
 				student->graduate(completedCourse);
 	
 		std::cout << "Course " << completedCourse->get_name() << " is Completed\n";
