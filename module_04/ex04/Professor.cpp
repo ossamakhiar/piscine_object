@@ -49,14 +49,9 @@ void	Professor::doClass()
 	// !!! TEST
 	classroom->printOccupant();
 
-	// ? exiting the Class Emmmmmmmmmmmm????
-	for (auto student : _currentCourse->get_subscribed_students())
-		student->exitClass();
-	classroom->unassignCourse();
-
-	exitRoom();
-
-	classroom->printOccupant();
+	// // ? exiting the Class Emmmmmmmmmmmm????
+	// for (auto student : _currentCourse->get_subscribed_students())
+	// 	student->exitClass();
 }
 
 void	Professor::closeCourse()
@@ -90,4 +85,25 @@ void	Professor::fill(Form *form)
 		ret->set_course(_currentCourse);
 		ret->set_professor(this);
 	}
+}
+
+
+void	Professor::update() {
+
+	// ? maybe it better to check if the current room is a Classroom
+	if (_currentRoom && !_classroom)
+	{
+		std::cout << "Professor " << _name  << " takes a break!\n";
+		_classroom = dynamic_cast<Classroom *>(_currentRoom);
+		exitRoom();
+		return ;
+	}
+
+	std::cout << "Professor " << _name << " went back to his class\n";
+	assert(_classroom);
+	// _currentCourse->
+
+	enterRoom(_classroom);
+	_classroom = nullptr;
+	_currentRoom->printOccupant();
 }

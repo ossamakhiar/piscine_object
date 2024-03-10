@@ -24,8 +24,8 @@ int main(void)
 
     loggers.push_back(fileLogger);
     loggers.push_back(streamLogger);
-    loggers.push_back(new DateHeaderLogger(*fileLogger));
-    loggers.push_back(new ConstStrHeaderLogger("[****HEADER****]", *streamLogger));
+    loggers.push_back(new DateHeaderLogger(fileLogger));
+    loggers.push_back(new ConstStrHeaderLogger("[****HEADER****]", streamLogger));
 
 
     msgs.push_back("Message 1..");

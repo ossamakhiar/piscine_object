@@ -69,3 +69,21 @@ void	Student::fill(Form *form)
 	s_form->set_student(this);
 	s_form->set_course(_desired_course);
 }
+
+
+void	Student::update()
+{
+	if (_currentRoom && !_lastClassroom)
+	{
+		std::cout << "Student " << _name << " takes a break...\n";
+		_lastClassroom = dynamic_cast<Classroom *>(_currentRoom);
+		exitRoom();
+		return ;
+	}
+
+	assert(_lastClassroom);
+	std::cout << "Student " << _name << " went back to his Class\n";
+	enterRoom(_lastClassroom);
+	_lastClassroom = nullptr;
+	_currentRoom->printOccupant();
+}

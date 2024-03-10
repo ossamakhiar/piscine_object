@@ -7,15 +7,15 @@
 class HeadlineLogger : public ILogger
 {
 private:
-    ILogger& logger;
+    ILogger* logger;
 
 public:
-    HeadlineLogger(ILogger& log) : logger(log) {
+    HeadlineLogger(ILogger* log) : logger(log) {
 
     }
 
     void    write(std::string msg) {
-        logger.write(get_header() + msg);
+        logger->write(get_header() + msg);
     }
 
     virtual std::string get_header() = 0;

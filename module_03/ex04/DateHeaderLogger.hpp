@@ -10,7 +10,7 @@ private:
     /*data*/
 
 public:
-    DateHeaderLogger(ILogger& p_logger) : HeadlineLogger(p_logger) {
+    DateHeaderLogger(ILogger* p_logger) : HeadlineLogger(p_logger) {
 
     };
     ~DateHeaderLogger() {};

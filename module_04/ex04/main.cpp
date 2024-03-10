@@ -2,11 +2,12 @@
 #include "Professor.hpp"
 #include "StudentList.hpp"
 #include "CourseList.hpp"
+#include <unistd.h>
 
 int main(void)
 {
     Headmaster      *headmaster = new Headmaster("Ethan Johnson");
-    ScheduledCourse s("Introduction to Dynamic programming", 1, 20);
+    ScheduledCourse s("Introduction to Dynamic programming", 5, 20);
     Professor       *prof_alan = new Professor("Alan walker");
     Secretary       *sofia = new Secretary("sofia alavertz");
     Student         *s_oussama = new Student("Oussama khiar"); 
@@ -24,23 +25,27 @@ int main(void)
     RoomList::get_instance()->add_element(sec_office);
 
     prof_alan->schedule_course(s);
+    headmaster->notify(prof_alan, FormType::NeedCourseCreation);
 
-    std::cout << "\e[1;32m**************\e[0m\n";
+    s_oussama->subscribe(CourseList::get_course("Introduction to Dynamic programming"));
+    s_john->subscribe(CourseList::get_course("Introduction to Dynamic programming"));
 
+    EventSubject*   bell = new EventSubject();
+    bell->attach(prof_alan);
+    bell->attach(s_oussama);
+    bell->attach(s_john);
+    headmaster->setBell(bell);
+
+    std::cout << "\e[1;32mstarting Courses\e[0m\n";
     headmaster->requireProfessorsAttendance();
 
-    std::cout << "Course just created ********\n";
+    for (int i = 0; i < 5; i++)
+    {
+        std::cout << "pause\n";
+        sleep(5);
+        headmaster->ringBell();
+    }
 
-    Course  *dp = CourseList::get_course("Introduction to Dynamic programming");
-    s_oussama->subscribe(dp);
-
-    headmaster->requireProfessorsAttendance();
-
-    std::cout << "\e[1;35mIT SHOULD GRADUATE THE STUDETN NOW\n\e[0m";
-
-    headmaster->requireProfessorsAttendance();
-
-    std::cout << prof_alan->room() << "\n";
-
+    std::cout << "End of the day\n";
     return 0;
 }

@@ -37,6 +37,9 @@ void	Headmaster::requireProfessorsAttendance()
 	for (auto staff : StaffList::get_instance()->get_elements())
 		if (Professor *prof = dynamic_cast<Professor*>(staff))
 			prof->doClass();
+
+	// ? maybe i should attach these professors to the EventSubject
+	// ? and get all the Student in the correspondence Class that Professor attend, and attach them....
 }
 
 

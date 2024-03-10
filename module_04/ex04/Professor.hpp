@@ -1,6 +1,7 @@
 #ifndef PROFESSOR_HPP
 # define PROFESSOR_HPP
 
+#include "observer.hpp"
 #include "Course.hpp"
 #include "Staff.hpp"
 #include <assert.h>
@@ -46,16 +47,17 @@ public:
 
 };
 
-class Professor : public Staff
+class Professor : public Staff, public Observer
 {
 private:
 	Course* 		_currentCourse;
+	Classroom*		_classroom;
 
 	ScheduledCourse scheduled_course; // a vector or *queue* is more appropriate
 	int				_currentCourseAttendance;
 
 public:
-	Professor(std::string name) : Staff(name), _currentCourse(nullptr), _currentCourseAttendance(0) {
+	Professor(std::string name) : Staff(name), _currentCourse(nullptr), _classroom(nullptr), _currentCourseAttendance(0) {
 		
 	}
 
@@ -65,6 +67,8 @@ public:
 
 	void	schedule_course(const ScheduledCourse& s);
 	void	fill(Form *form) override;
+
+	void	update() override; // implement update method, declared by the Observer interface 
 };
 
 #include "Headmaster.hpp"

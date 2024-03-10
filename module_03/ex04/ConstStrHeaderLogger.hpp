@@ -9,7 +9,7 @@ private:
     std::string _header;
 
 public:
-    ConstStrHeaderLogger(const std::string& header, ILogger& logger) : HeadlineLogger(logger), _header(header) {
+    ConstStrHeaderLogger(const std::string& header, ILogger* logger) : HeadlineLogger(logger), _header(header) {
 
     };
 

@@ -3,6 +3,7 @@
 
 // #include "Person.hpp"
 #include "Professor.hpp"
+#include "Event.hpp"
 
 // ?Headmaster serves as the invoker for Form (Command) objects, signing and executing them.
 // ?Additionally, Headmaster acts as a Mediator between the Secretary class and other classes
@@ -13,11 +14,16 @@ private:
    * The Invoker (Headmaster) does not depend on concrete command (Form) classes. The
    * ? Invoker passes a request to a receiver indirectly, by executing a command.
    */
-	std::vector<Form*> _formToValidate;
+	std::vector<Form*>	_formToValidate;
+	EventSubject*		bell;
 	
 public:
-	Headmaster(std::string name) : Staff(name) {
+	Headmaster(std::string name) : Staff(name), bell(nullptr) {
 		
+	}
+
+	void	setBell(EventSubject* p_bell) {
+		bell = p_bell;
 	}
 
 	void receiveForm(Form* p_form) {
@@ -40,6 +46,10 @@ public:
 
 	void	requireProfessorsAttendance();
 
+	void	ringBell() {
+		if (bell)
+			bell->ringBell();
+	}
 
 	bool	notify(Person *requester, FormType	request_type);
 };
