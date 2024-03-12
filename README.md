@@ -13,7 +13,7 @@ The **Piscine Object** is a curated series of modules designed to impart crucial
 4. **[Module 03 - SOLID](module_03/README.md):**
    This module demystifies the concept of SOLID, an acronym commonly used in the software development realm. Understanding the SOLID principles is crucial for designing maintainable and scalable software.
 
-5. **Module 04 - Design Patterns:**
+5. **[Module 04 - Design Patterns](module04/README.md):**
    Covering the renowned Gang of Four design patterns, this module equips learners with proven solutions to recurring design problems, fostering efficient and scalable software development.
 
 6. **Module 05 - Practical Work:**
