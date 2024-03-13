@@ -4,6 +4,14 @@
 #include <iostream>
 #include "employee.hpp"
 
+// !! Maybe i should extend the interface Employee >>
+/*
+class ITempWorker : public Employee
+{
+public:
+    virtual void    registerWorkedHours(int hours) = 0;
+}
+*/
 
 class   TempWorker : public Employee
 {
