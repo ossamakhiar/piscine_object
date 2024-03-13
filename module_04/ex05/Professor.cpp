@@ -22,7 +22,7 @@ void	Professor::doClass()
 		headmaster->notify(this, FormType::NeedCourseCreation);
 		assert(_currentCourse);
 		std::cout << "Professor " << _name << " now assigned to course \"" << _currentCourse->get_name() << "\"\n";
-		return ;
+		// return ;
 	}
 
 	if (_currentCourseAttendance >= _currentCourse->get_nums_graduate())
@@ -48,10 +48,6 @@ void	Professor::doClass()
 
 	// !!! TEST
 	classroom->printOccupant();
-
-	// // ? exiting the Class Emmmmmmmmmmmm????
-	// for (auto student : _currentCourse->get_subscribed_students())
-	// 	student->exitClass();
 }
 
 void	Professor::closeCourse()
@@ -103,11 +99,12 @@ void	Professor::update(Event event)
 
 		std::cout << "Professor " << _name << " went back to his class\n";
 		assert(_classroom);
-		// _currentCourse->
 
 		enterRoom(_classroom);
 		_classroom = nullptr;
 		_currentRoom->printOccupant();
 		return ;
 	}
+	std::cout << "Professor " << _name << "Launch time\n";
+	// i should define what should happend in that case
 }

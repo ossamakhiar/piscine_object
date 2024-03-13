@@ -9,7 +9,6 @@ bool	Student::isSubscribed(Course *p_course)
 }
 
 
-
 void	Student::attendClass(Classroom* p_classroom)
 {
 	if (!p_classroom->get_course())
@@ -88,5 +87,8 @@ void	Student::update(Event event)
 		enterRoom(_lastClassroom);
 		_lastClassroom = nullptr;
 		_currentRoom->printOccupant();
+		return ;
 	}
+	std::cout << "Student " << _name << "Launch time\n";
 }
+

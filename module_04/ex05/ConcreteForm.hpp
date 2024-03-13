@@ -15,7 +15,7 @@
 class CourseFinishedForm : public Form
 {
 private:
-	// * course that would set as finished
+	// * course that would be set as finished
 	Course	*completedCourse;
 	Professor *professor;
 

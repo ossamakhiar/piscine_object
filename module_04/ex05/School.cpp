@@ -7,12 +7,15 @@ School::School(const std::string& p_school_name, const std::string& headmaster_n
 	StaffList::get_instance()->add_element(headmaster);
 	StaffList::get_instance()->add_element(secretary);
 
+	RoomList::get_instance()->add_element(new SecretarialOffice);
+
 	bell = new EventSubject();
+	headmaster->setBell(bell);
 }
 
 School::~School()
 {
- // !! Back here to cleanup
+	// !! Back here to cleanup
 	delete headmaster;
 	delete secretary;
 	delete bell;
@@ -20,7 +23,7 @@ School::~School()
 
 void	School::runDayRoutine()
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		launchClasses();
 		if (i == 1)
@@ -43,16 +46,16 @@ void	School::requestRingBell(Event event)
 	headmaster->ringBell(event);
 }
 
-void	School::recruteProfessor()
+void	School::recruteProfessor(const std::string& prof_name)
 {
-	Professor	*professor = new Professor("prof name");
+	Professor	*professor = new Professor(prof_name);
 	bell->attach(professor);
 	StaffList::get_instance()->add_element(professor);
 }
 
-void	School::recruteStudent()
+void	School::recruteStudent(const std::string& student_name)
 {
-	Student	*student = new Student("student name");
+	Student	*student = new Student(student_name);
 	bell->attach(student);
 	StudentList::get_instance()->add_element(student);
 }

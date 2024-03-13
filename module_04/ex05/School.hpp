@@ -28,8 +28,8 @@ public:
 	void	runDayRoutine();
 	void	launchClasses();
 	void	requestRingBell(Event event);
-	void	recruteProfessor();
-	void	recruteStudent();
+	void	recruteProfessor(const std::string& prof_name);
+	void	recruteStudent(const std::string& student_name);
 
 	Course*					getCourse(std::string p_name);
 	Secretary*				getSecretary();

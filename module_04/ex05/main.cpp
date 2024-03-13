@@ -6,8 +6,12 @@ int main(void)
 
     ScheduledCourse s("Intrduction dp", 2, 10);
 
-    school.recruteProfessor();
-    StaffList::get_professor("prof name")->schedule_course(s);
+    school.recruteProfessor("Liam putri");
+    StaffList::get_professor("Liam putri")->schedule_course(s);
+
+    school.recruteStudent("oussama khiar");
+    Course* dp_course = school.getCourse("Introduction dp");
+    // ! How should i student register on a Course??????????
     school.runDayRoutine();
 
 

@@ -23,8 +23,9 @@ public:
 
 	}
 
-	virtual void	fill(Form *form) { // i will reduce the direct dependency between the Headmaster and who request the Form
-		std::cout << "Nothing for a regular person\n";
+	virtual void	fill(Form *form) { // it will reduce the direct dependency between the Headmaster and who request the Form
+		std::cout << "Nothing for a regular person\n"; // !!! Should be in a diffrent interface "interface segregation principle"
+		// !! not all persons intersted in the fill of the form
 		(void)form;
 	}
 
