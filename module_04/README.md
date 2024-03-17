@@ -238,6 +238,8 @@ Analyzing this example within the context of the Mediator pattern, the key parti
 ---
 
 # Links
+* <a href="https://www.javier8a.com/itc/bd1/articulo.pdf">Design Patterns - GOF</a>
+
 #### Singleton Design Pattern
 
 * <a href="https://www.oodesign.com/singleton-pattern">Singleton design pattern (OODesign)</a>
@@ -264,4 +266,6 @@ Analyzing this example within the context of the Mediator pattern, the key parti
 
 #### Observer Design Pattern
 
-* <a href=""></a>
+#### Facade Design Pattern
+
+* <a href="https://www.cs.unc.edu/~stotts/GOF/hires/pat4efso.htm">Facade Design Pattern - *Recommended </a>
