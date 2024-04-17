@@ -238,7 +238,9 @@ Analyzing this example within the context of the Mediator pattern, the key parti
 ---
 
 # Links
+
 * <a href="https://www.javier8a.com/itc/bd1/articulo.pdf">Design Patterns - GOF</a>
+* <a href="https://www.patterns.dev/">Patterns.dev</a>
 
 #### Singleton Design Pattern
 
@@ -249,6 +251,8 @@ Analyzing this example within the context of the Mediator pattern, the key parti
 * <a href="https://medium.com/@leogbastiani/singleton-vs-global-variables-choosing-the-best-structure-for-your-code-ed25aec3e9f9">Singleton vs global variables</a>
 
 * <a href="https://www.youtube.com/watch?v=hUE_j6q0LTQ">Singleton Pattern (Christopher Okhrav) Video</a>
+* <a href="https://jorudolph.wordpress.com/2009/11/22/singleton-considerations/">What is so bad about Singletons?</a>
+
 
 #### Command Design Pattern
 
@@ -265,6 +269,9 @@ Analyzing this example within the context of the Mediator pattern, the key parti
 * <a href="https://refactoring.guru/design-patterns/mediator">Mediator Pettern - refactoring.guru</a>
 
 #### Observer Design Pattern
+
+* <a href="https://www.cs.unc.edu/~stotts/GOF/hires/pat5gfso.htm">Observer Design pattern</a>
+
 
 #### Facade Design Pattern
 

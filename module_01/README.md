@@ -222,3 +222,14 @@ The difference between `composition` and `aggregation` lies in the **strength** 
 Consider <a href="https://en.wikipedia.org/wiki/Object_composition#Aggregation">this example (wiki)</a>, Aggregation differs from ordinary composition in that it does not imply ownership. In composition, when the owning object is destroyed, so are the contained objects. In aggregation, this is not necessarily true. For example, a university owns various departments (e.g., chemistry), and each department has a number of professors. If the university closes, the departments will no longer exist, but the professors in those departments will continue to exist. Therefore, a **university can be seen as a composition of departments**, whereas **departments have an aggregation of professors**. In addition, a professor could work in more than one department, but a department could not be part of more than one university.
 
 <br>
+
+
+
+# Links
+
+* <a href="https://medium.com/@bindubc/association-aggregation-and-composition-in-oops-8d260854a446">Association, aggregation, and composition in OOPs</a>
+* <a href="https://medium.com/launch-school/no-object-is-an-island-707e59ffedb4">No object is an island</a>
+* <a href="https://en.wikipedia.org/wiki/Object_composition#Aggregation">Object composition</a>
+* <a href="https://www.codeproject.com/Articles/330447/Understanding-Association-Aggregation-and-Composit">Understanding Association, Aggregation, and Composition</a>
+* <a href="https://medium.com/@daloukalai/double-dispatching-in-c-df76724cf321">Double Dispatching in C++</a>
+* <a href=""></a>

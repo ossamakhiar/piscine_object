@@ -593,4 +593,5 @@ This principle should not be applied blindly to every class or module. Some low-
 * <a href="https://softwareengineering.stackexchange.com/questions/237935/high-level-classes-and-low-level-classes">High-level classes and low-level classes (DIP)</a>
 * <a href="https://blog.ndepend.com/are-solid-principles-cargo-cult/">Are SOLID principles Cargo Cult?</a>
 * <a href="https://sklivvz.com/posts/i-dont-love-the-single-responsibility-principle">I don't love the SRP</a>
+* <a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle"></a>
 * <a href=""></a>
