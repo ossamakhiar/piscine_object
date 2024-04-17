@@ -4,6 +4,7 @@
 class   Shape
 {
 protected:
+    // int x;
 
 public:
     virtual double  calc_area() {
@@ -14,5 +15,8 @@ public:
     }
     virtual ~Shape() {};
 };
+
+
+
 
 #endif

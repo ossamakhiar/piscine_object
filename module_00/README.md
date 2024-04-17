@@ -19,6 +19,9 @@ Some resources about the PNG file format:
 - <a href="https://stigge.org/martin/pub/SAR-PR-2006-05.pdf">CRC Paper</a>
 - <a href="https://perswww.kuleuven.be/~u0068190/Onderwijs/Extra_info/crc.pdf">CRC Paper</a>
 
+- <a href="https://en.wikipedia.org/wiki/Endianness#Big-endian">Endianness</a>
+
+
 
 <!-- https://www.nayuki.io/res/dumb-png-output-java/png-file-format.svg -->
 <!-- https://kg86.github.io/visstr/dist/vis_str_demo.html lz77 algorithm -->
