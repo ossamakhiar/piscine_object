@@ -23,32 +23,6 @@ SOLID PRINCIPLES
 
  ➡️ Open Closed
     Classes should be open for extension,
-#include <fstream>
-#include <ctime>
-#include "ILogger.hpp"
-
-class FileLogger : public ILogger
-{
-private:
-    std::ofstream   fout;
-
-public:
-    FileLogger() {
-        std::string name = "demo.log";
-    
-        fout.open(name.c_str(), std::fstream::out | std::fstream::app);
-        if (!fout.is_open())
-            throw   std::runtime_error("Can't open the file");
-    };
-    ~FileLogger() {
-        fout.close();
-    };
-
-    void    write(std::string message) {
-        fout << message << "\n";
-    }
-};
-
     closed for modification. In other words, you should not have to rewrite
     an existing class for implementing new features.
 
