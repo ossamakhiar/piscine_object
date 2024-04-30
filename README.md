@@ -19,4 +19,4 @@ The **Piscine Object** is a curated series of modules designed to impart crucial
 6. **Module 05 - Practical Work:**
    The culmination of knowledge acquired in the preceding modules, this practical exercise challenges participants to apply their newfound skills and insights. It serves as a hands-on opportunity to reinforce theoretical understanding through real-world application.
 
-By completing the **Piscine Object** modules in this prescribed order, participants will not only grasp the intricacies of OOP but also gain a holistic view of software architecture, setting the stage for proficient and effective software development practices.
+By completing the **Piscine Object** modules in this prescribed order,  i'll not only grasp the intricacies of OOP but also gain a holistic view of software architecture, setting the stage for proficient and effective software development practices.
