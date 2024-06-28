@@ -261,6 +261,7 @@ Analyzing this example within the context of the Mediator pattern, the key parti
 * <a href="https://stackoverflow.com/questions/32597736/why-should-i-use-the-command-design-pattern-while-i-can-easily-call-required-met">why should i use the command design pattern</a>
 * <a href="https://course.ccs.neu.edu/cs5004/lecturecommands.html">The Command Design Pattern</a>
 * <a href="https://bootcamp.uxdesign.cc/encapsulating-requests-the-power-of-the-command-design-pattern-d2f42b0f9d1d">Encapsulating Requests: The Power of the “Command Design Pattern”</a>
+* <a href="https://www.youtube.com/watch?v=LRZ1cuXiXTI">Undo and Redo, Command design pattern </a>
 
 #### Mediator Design Pattern
 
